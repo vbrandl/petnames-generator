@@ -1,0 +1,12 @@
+@use super::base;
+@use crate::statics::VersionInfo;
+
+@(name: &str, version_info: VersionInfo)
+
+@:base("Petnames", "Petnames", {
+<nav>
+<pre>
+@name
+</pre>
+</nav>
+}, version_info)

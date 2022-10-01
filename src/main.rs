@@ -1,13 +1,14 @@
 use anyhow::Result;
 use axum::{
-    extract::{MatchedPath, Query},
+    extract::{MatchedPath, Path, Query},
     handler::Handler,
     http::{Request, StatusCode},
     middleware::{self, Next},
-    response::IntoResponse,
+    response::{Html, IntoResponse},
     routing::get,
-    Router, Server,
+    Router, Server, TypedHeader,
 };
+use headers::{ContentType, Expires};
 use hyper::{header::HeaderName, Body};
 use lazy_static::lazy_static;
 use metrics_exporter_prometheus::{Matcher, PrometheusBuilder, PrometheusHandle};
@@ -20,8 +21,19 @@ use tower_http::{
 use tracing::{error, info};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-use std::{fmt, future::ready, net::SocketAddr, str::FromStr, time::Instant};
+use std::{
+    fmt,
+    future::ready,
+    net::SocketAddr,
+    str::FromStr,
+    time::{Duration, Instant, SystemTime},
+};
 
+use templates::statics::StaticFile;
+
+include!(concat!(env!("OUT_DIR"), "/templates.rs"));
+
+mod statics;
 #[cfg(test)]
 mod tests;
 
@@ -54,8 +66,31 @@ where
 
 async fn root(
     Query(GenerateQuery { words, separator }): Query<GenerateQuery>,
-) -> impl IntoResponse {
-    petname::petname(words.unwrap_or(2), separator.as_deref().unwrap_or("-"))
+) -> Result<impl IntoResponse, ()> {
+    let name = petname::petname(words.unwrap_or(2), separator.as_deref().unwrap_or("-"));
+    let mut buf = Vec::new();
+    // TODO: errorhandling
+    templates::index(&mut buf, &name, statics::VERSION_INFO).map_err(|_| ())?;
+    Ok(Html(buf))
+}
+
+async fn static_files(Path(filename): Path<String>) -> impl IntoResponse {
+    /// A duration to add to current time for a far expires header.
+    static FAR: Duration = Duration::from_secs(180 * 24 * 60 * 60);
+    match StaticFile::get(&filename) {
+        Some(data) => {
+            let far_expires = SystemTime::now() + FAR;
+            (
+                TypedHeader(ContentType::from(data.mime.clone())),
+                TypedHeader(Expires::from(far_expires)),
+                data.content,
+            )
+                .into_response()
+            // data.content.into_response()
+        }
+        None => handler_404().await.into_response(),
+    }
+    // filename
 }
 
 fn app() -> Router {
@@ -64,6 +99,7 @@ fn app() -> Router {
     Router::new()
         .route("/", get(root))
         .route("/metrics", get(move || ready(prometheus_handle.render())))
+        .route("/static/:filename", get(static_files))
         .fallback(handler_404.into_service())
         .layer(
             TraceLayer::new_for_http().make_span_with(|request: &Request<Body>| {
