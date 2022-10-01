@@ -1,0 +1,28 @@
+[package]
+name = "petnames-fly"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.65"
+axum = "0.5.16"
+hyper = { version = "0.14.20", features = ["full"] }
+lazy_static = "1.4.0"
+metrics = "0.20.1"
+metrics-exporter-prometheus = "0.11.0"
+petname = { version = "1.1.2", default-features = false, features = [ "default_dictionary", "std_rng" ] }
+serde = { version = "1.0.145", features = ["derive"] }
+tokio = { version = "1.21.2", features = ["full"] }
+tower-http = { version = "0.3.4", features = ["trace", "request-id"] }
+tracing = "0.1.36"
+tracing-subscriber = { version = "0.3.15", features = ["env-filter"] }
+
+[dev-dependencies]
+tower = { version = "0.4.13", features = ["util"] }
+
+[build-dependencies]
+anyhow = "1.0.65"
+ructe = { version = "0.15.0", features = ["mime03"] }
+vergen = { version = "7.4.2", default-features = false, features = ["git"] }
