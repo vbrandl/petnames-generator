@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
- * Fixed broken testcase for `/metrics` endpoint ([#2])
+ * Fixed broken testcase for `/metrics` endpoint ([#2], [#3])
  * Shortened the buildscript ([#3])
 
 [#2]: https://github.com/vbrandl/petnames-generator/pull/2
