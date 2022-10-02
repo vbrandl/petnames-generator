@@ -1,7 +1,10 @@
 @use super::base;
-@use crate::statics::{VersionInfo, DEFAULT_NUMBER_OF_NAMES, DEFAULT_SEPARATOR, DEFAULT_WORDS_PER_NAME};
+@use crate::{
+    GenerateQuery,
+    statics::{VersionInfo, DEFAULT_NUMBER_OF_NAMES, DEFAULT_SEPARATOR, DEFAULT_WORDS_PER_NAME}
+};
 
-@(names: &[String], version_info: VersionInfo)
+@(names: &[String], query: GenerateQuery, version_info: VersionInfo)
 
 @:base("Petnames", "Petnames", {
 <section>
@@ -13,13 +16,13 @@
 
     <form method="get">
         <label for="separator">Separator</label>
-        <input type="text" id="separator" name="separator" placeholder="@(DEFAULT_SEPARATOR)" />
+        <input type="text" id="separator" name="separator" value="@(query.separator.as_deref().unwrap_or(""))" placeholder="@(DEFAULT_SEPARATOR)" />
 
         <label for="words_per_name">Words per Name</label>
-        <input type="number" id="words_per_name" name="words_per_name" placeholder="@(DEFAULT_WORDS_PER_NAME)" />
+        <input type="number" id="words_per_name" name="words_per_name" value="@(query.words_per_name.as_ref().map(u8::to_string).as_deref().unwrap_or(""))" placeholder="@(DEFAULT_WORDS_PER_NAME)" />
 
         <label for="number_of_names">Number of Names</label>
-        <input type="number" id="number_of_names" name="number_of_names" placeholder="@(DEFAULT_NUMBER_OF_NAMES)" />
+        <input type="number" id="number_of_names" name="number_of_names" value="@(query.number_of_names.as_ref().map(u8::to_string).as_deref().unwrap_or(""))" placeholder="@(DEFAULT_NUMBER_OF_NAMES)" />
 
         <button type="submit">Generate</button>
     </form>

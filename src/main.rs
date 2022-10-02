@@ -51,7 +51,7 @@ lazy_static! {
 }
 
 #[derive(Deserialize)]
-struct GenerateQuery {
+pub struct GenerateQuery {
     #[serde(default, deserialize_with = "empty_string_as_none")]
     words_per_name: Option<u8>,
     // #[serde(default, deserialize_with = "empty_string_as_none")]
@@ -132,21 +132,16 @@ fn generate_names(words_per_name: u8, separator: &str, number_of_names: usize) -
     //     .collect();
 }
 
-async fn root(
-    Query(GenerateQuery {
-        words_per_name,
-        separator,
-        number_of_names,
-    }): Query<GenerateQuery>,
-) -> impl IntoResponse {
-    let words_per_name = words_per_name.unwrap_or(DEFAULT_WORDS_PER_NAME);
-    let separator = separator.as_deref().unwrap_or(DEFAULT_SEPARATOR);
-    let number_of_names = number_of_names
+async fn root(Query(query): Query<GenerateQuery>) -> impl IntoResponse {
+    let words_per_name = query.words_per_name.unwrap_or(DEFAULT_WORDS_PER_NAME);
+    let separator = query.separator.as_deref().unwrap_or(DEFAULT_SEPARATOR);
+    let number_of_names = query
+        .number_of_names
         .map(usize::from)
         .unwrap_or(DEFAULT_NUMBER_OF_NAMES);
     let names = generate_names(words_per_name, separator, number_of_names);
 
-    render!(templates::index, &names, statics::VERSION_INFO)
+    render!(templates::index, &names, query, statics::VERSION_INFO)
 }
 
 async fn static_files(Path(filename): Path<String>) -> impl IntoResponse {
