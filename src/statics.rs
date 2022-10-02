@@ -10,4 +10,4 @@ pub const VERSION_INFO: VersionInfo = VersionInfo {
 
 pub static DEFAULT_SEPARATOR: &str = "";
 pub static DEFAULT_WORDS_PER_NAME: u8 = 2;
-pub static DEFAULT_NUMBER_OF_NAMES: usize = 5;
+pub static DEFAULT_NUMBER_OF_NAMES: usize = 6;
