@@ -5,11 +5,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] 2022-10-02
+
+### Changed
+
+ * Use large wordlist and improve performance by reusing the random number generator ([#4])
+
 ### Fixed
 
  * Fixed broken testcase for `/metrics` endpoint ([#2], [#3])
  * Shortened the buildscript ([#3])
- * Use large wordlist and improve performance by reusing the random number generator ([#4])
 
 [#2]: https://github.com/vbrandl/petnames-generator/pull/2
 [#3]: https://github.com/vbrandl/petnames-generator/pull/3
