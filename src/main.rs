@@ -10,8 +10,6 @@ use axum::{
 };
 use headers::{ContentType, Expires};
 use hyper::{header::HeaderName, Body};
-use lazy_static::lazy_static;
-use metrics_exporter_prometheus::{Matcher, PrometheusBuilder, PrometheusHandle};
 use petname::Petnames;
 use serde::{de, Deserialize, Deserializer};
 use tokio::signal;
@@ -38,17 +36,13 @@ use crate::{
 
 include!(concat!(env!("OUT_DIR"), "/templates.rs"));
 
-mod statics;
+mod metric;
 #[macro_use]
 mod render;
+mod statics;
 
 #[cfg(test)]
 mod tests;
-
-lazy_static! {
-    static ref PROMETHEUS_HANDLE: PrometheusHandle =
-        setup_metrics_recorder().expect("cannot setup metrics recorder");
-}
 
 #[derive(Deserialize)]
 pub struct GenerateQuery {
@@ -133,11 +127,17 @@ fn generate_names(words_per_name: u8, separator: &str, number_of_names: usize) -
 }
 
 async fn root(query: Option<Query<GenerateQuery>>) -> Response {
-    if let Some(Query(query)) = query {
-        let words_per_name = query.words_per_name.unwrap_or(DEFAULT_WORDS_PER_NAME);
-        let separator = query.separator.as_deref().unwrap_or(DEFAULT_SEPARATOR);
-        let number_of_names = query
-            .number_of_names
+    if let Some(Query(
+        ref query @ GenerateQuery {
+            words_per_name,
+            ref separator,
+            number_of_names,
+        },
+    )) = query
+    {
+        let words_per_name = words_per_name.unwrap_or(DEFAULT_WORDS_PER_NAME);
+        let separator = separator.as_deref().unwrap_or(DEFAULT_SEPARATOR);
+        let number_of_names = number_of_names
             .map(usize::from)
             .unwrap_or(DEFAULT_NUMBER_OF_NAMES);
         let names = generate_names(words_per_name, separator, number_of_names);
@@ -164,74 +164,6 @@ async fn static_files(Path(filename): Path<String>) -> impl IntoResponse {
         }
         None => handler_404().await.into_response(),
     }
-}
-
-fn app() -> Router {
-    static X_REQUEST_ID: HeaderName = HeaderName::from_static("x-request-id");
-    let prometheus_handle = PROMETHEUS_HANDLE.clone();
-    Router::new()
-        .route("/", get(root))
-        .route("/metrics", get(move || ready(prometheus_handle.render())))
-        .route("/static/:filename", get(static_files))
-        .fallback(handler_404.into_service())
-        .layer(
-            TraceLayer::new_for_http()
-                // add request-id to trace span
-                .make_span_with(|request: &Request<Body>| {
-                    let default_span = DefaultMakeSpan::default().make_span(request);
-                    let requestid = match request
-                        .extensions()
-                        .get::<RequestId>()
-                        .map(RequestId::header_value)
-                    {
-                        Some(req_id) => req_id.to_str().unwrap_or(""),
-                        None => {
-                            error!("cannot extract request-id");
-                            ""
-                        }
-                    }
-                    .to_string();
-                    tracing::info_span!(parent: &default_span, "petnames", %requestid)
-                }),
-        )
-        // PropagateRequestIdLayer must be befor SetRequestIdLayer
-        .layer(PropagateRequestIdLayer::new(X_REQUEST_ID.clone()))
-        .layer(SetRequestIdLayer::new(
-            X_REQUEST_ID.clone(),
-            MakeRequestUuid,
-        ))
-        .route_layer(middleware::from_fn(track_metrics))
-}
-
-#[tokio::main]
-async fn main() -> Result<()> {
-    tracing_subscriber::registry()
-        .with(tracing_subscriber::EnvFilter::new(
-            std::env::var("RUST_LOG")
-                .unwrap_or_else(|_| "petnames_generator=debug,tower_http=debug".into()),
-        ))
-        .with(tracing_subscriber::fmt::layer())
-        .init();
-
-    let addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 8080));
-    Server::bind(&addr)
-        .serve(app().into_make_service())
-        .with_graceful_shutdown(shutdown_signal())
-        .await?;
-    Ok(())
-}
-
-fn setup_metrics_recorder() -> Result<PrometheusHandle> {
-    const EXPONENTIAL_SECONDS: &[f64] = &[
-        0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0,
-    ];
-
-    Ok(PrometheusBuilder::new()
-        .set_buckets_for_metric(
-            Matcher::Full("http_requests_duration_seconds".to_string()),
-            EXPONENTIAL_SECONDS,
-        )?
-        .install_recorder()?)
 }
 
 async fn handler_404() -> impl IntoResponse {
@@ -291,4 +223,59 @@ async fn shutdown_signal() {
     }
 
     info!("signal received, starting graceful shutdown");
+}
+
+fn app() -> Router {
+    static X_REQUEST_ID: HeaderName = HeaderName::from_static("x-request-id");
+    let prometheus_handle = metric::PROMETHEUS_HANDLE.clone();
+    Router::new()
+        .route("/", get(root))
+        .route("/metrics", get(move || ready(prometheus_handle.render())))
+        .route("/static/:filename", get(static_files))
+        .fallback(handler_404.into_service())
+        .layer(
+            TraceLayer::new_for_http()
+                // add request-id to trace span
+                .make_span_with(|request: &Request<Body>| {
+                    let default_span = DefaultMakeSpan::default().make_span(request);
+                    let requestid = match request
+                        .extensions()
+                        .get::<RequestId>()
+                        .map(RequestId::header_value)
+                    {
+                        Some(req_id) => req_id.to_str().unwrap_or(""),
+                        None => {
+                            error!("cannot extract request-id");
+                            ""
+                        }
+                    }
+                    .to_string();
+                    tracing::info_span!(parent: &default_span, "petnames", %requestid)
+                }),
+        )
+        // PropagateRequestIdLayer must be befor SetRequestIdLayer
+        .layer(PropagateRequestIdLayer::new(X_REQUEST_ID.clone()))
+        .layer(SetRequestIdLayer::new(
+            X_REQUEST_ID.clone(),
+            MakeRequestUuid,
+        ))
+        .route_layer(middleware::from_fn(track_metrics))
+}
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    tracing_subscriber::registry()
+        .with(tracing_subscriber::EnvFilter::new(
+            std::env::var("RUST_LOG")
+                .unwrap_or_else(|_| "petnames_generator=debug,tower_http=debug".into()),
+        ))
+        .with(tracing_subscriber::fmt::layer())
+        .init();
+
+    let addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 8080));
+    Server::bind(&addr)
+        .serve(app().into_make_service())
+        .with_graceful_shutdown(shutdown_signal())
+        .await?;
+    Ok(())
 }
