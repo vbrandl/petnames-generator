@@ -8,7 +8,6 @@ fn main() -> Result<()> {
     vergen(config)?;
 
     let mut ructe = Ructe::from_env()?;
-    let mut statics = ructe.statics()?;
-    statics.add_files("static")?;
+    ructe.statics()?.add_files("static")?;
     Ok(ructe.compile_templates("templates")?)
 }
