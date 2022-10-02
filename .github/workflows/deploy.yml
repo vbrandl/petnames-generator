@@ -1,0 +1,22 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - v*
+
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+jobs:
+  tests:
+    uses: vbrandl/petnames-generator/.github/workflows/ci.yml@master
+
+  deploy:
+    name: Deploy
+    needs: [tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only
