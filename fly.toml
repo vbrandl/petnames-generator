@@ -4,7 +4,7 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 
 [experimental]
-cmd = "./petnames-fly"
+cmd = "./petnames-generator"
 
 [env]
 PORT = "8080"

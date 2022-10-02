@@ -4,7 +4,7 @@ use axum::{
     handler::Handler,
     http::{Request, StatusCode},
     middleware::{self, Next},
-    response::{Html, IntoResponse},
+    response::IntoResponse,
     routing::get,
     Router, Server, TypedHeader,
 };
@@ -24,16 +24,23 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use std::{
     fmt,
     future::ready,
+    iter::repeat_with,
     net::SocketAddr,
     str::FromStr,
     time::{Duration, Instant, SystemTime},
 };
 
-use templates::statics::StaticFile;
+use crate::{
+    statics::{DEFAULT_NUMBER_OF_NAMES, DEFAULT_SEPARATOR, DEFAULT_WORDS_PER_NAME},
+    templates::statics::StaticFile,
+};
 
 include!(concat!(env!("OUT_DIR"), "/templates.rs"));
 
 mod statics;
+#[macro_use]
+mod render;
+
 #[cfg(test)]
 mod tests;
 
@@ -45,9 +52,11 @@ lazy_static! {
 #[derive(Deserialize)]
 struct GenerateQuery {
     #[serde(default, deserialize_with = "empty_string_as_none")]
-    words: Option<u8>,
-    #[serde(default, deserialize_with = "empty_string_as_none")]
+    words_per_name: Option<u8>,
+    // #[serde(default, deserialize_with = "empty_string_as_none")]
     separator: Option<String>,
+    #[serde(default, deserialize_with = "empty_string_as_none")]
+    number_of_names: Option<u8>,
 }
 
 // handle empty strings in query as `None`
@@ -64,14 +73,76 @@ where
     }
 }
 
+fn generate_names(words_per_name: u8, separator: &str, number_of_names: usize) -> Vec<String> {
+    // first generate names with a non-empty separator so we can capitalize the first letters
+    static TEMP_SEPARATOR: &str = "-";
+    repeat_with(|| {
+        petname::petname(words_per_name, TEMP_SEPARATOR)
+            .split(TEMP_SEPARATOR)
+            .map(|name| {
+                // capitalize first letters
+                name.chars().fold(
+                    (String::with_capacity(name.len()), true),
+                    |(mut builder, first), next| {
+                        builder.push(if first {
+                            next.to_ascii_uppercase()
+                        } else {
+                            next
+                        });
+                        (builder, false)
+                    },
+                )
+            })
+            .map(|(name, _)| name)
+            .collect::<Vec<_>>()
+            .join(separator)
+    })
+    .take(number_of_names)
+    .collect()
+
+    // TODO: wait for https://github.com/allenap/rust-petname/issues/61 to be fixed
+    // TODO: the solution above might return non-unique names
+    // let names: Vec<_> = petnames
+    //     .iter_non_repeating(&mut rng, words, DEFAULT_SEPARATOR)
+    //     .map(|name| {
+    //         name.split(DEFAULT_SEPARATOR)
+    //             .map(|n| {
+    //                 // capitalize first letters
+    //                 n.chars().fold(
+    //                     (String::with_capacity(n.len()), true),
+    //                     |(mut builder, first), next| {
+    //                         builder.push(if first {
+    //                             next.to_ascii_uppercase()
+    //                         } else {
+    //                             next
+    //                         });
+    //                         (builder, false)
+    //                     },
+    //                 )
+    //             })
+    //             .map(|(name, _)| name)
+    //             .collect::<Vec<_>>()
+    //             .join(separator)
+    //     })
+    //     .take(names)
+    //     .collect();
+}
+
 async fn root(
-    Query(GenerateQuery { words, separator }): Query<GenerateQuery>,
-) -> Result<impl IntoResponse, ()> {
-    let name = petname::petname(words.unwrap_or(2), separator.as_deref().unwrap_or("-"));
-    let mut buf = Vec::new();
-    // TODO: errorhandling
-    templates::index(&mut buf, &name, statics::VERSION_INFO).map_err(|_| ())?;
-    Ok(Html(buf))
+    Query(GenerateQuery {
+        words_per_name,
+        separator,
+        number_of_names,
+    }): Query<GenerateQuery>,
+) -> impl IntoResponse {
+    let words_per_name = words_per_name.unwrap_or(DEFAULT_WORDS_PER_NAME);
+    let separator = separator.as_deref().unwrap_or(DEFAULT_SEPARATOR);
+    let number_of_names = number_of_names
+        .map(usize::from)
+        .unwrap_or(DEFAULT_NUMBER_OF_NAMES);
+    let names = generate_names(words_per_name, separator, number_of_names);
+
+    render!(templates::index, &names, statics::VERSION_INFO)
 }
 
 async fn static_files(Path(filename): Path<String>) -> impl IntoResponse {
@@ -86,15 +157,13 @@ async fn static_files(Path(filename): Path<String>) -> impl IntoResponse {
                 data.content,
             )
                 .into_response()
-            // data.content.into_response()
         }
         None => handler_404().await.into_response(),
     }
-    // filename
 }
 
 fn app() -> Router {
-    let x_request_id = HeaderName::from_static("x-request-id");
+    static X_REQUEST_ID: HeaderName = HeaderName::from_static("x-request-id");
     let prometheus_handle = PROMETHEUS_HANDLE.clone();
     Router::new()
         .route("/", get(root))
@@ -102,26 +171,31 @@ fn app() -> Router {
         .route("/static/:filename", get(static_files))
         .fallback(handler_404.into_service())
         .layer(
-            TraceLayer::new_for_http().make_span_with(|request: &Request<Body>| {
-                let default_span = DefaultMakeSpan::default().make_span(request);
-                let requestid = match request
-                    .extensions()
-                    .get::<RequestId>()
-                    .map(RequestId::header_value)
-                {
-                    Some(req_id) => req_id.to_str().unwrap_or(""),
-                    None => {
-                        error!("cannot extract request-id");
-                        ""
+            TraceLayer::new_for_http()
+                // add request-id to trace span
+                .make_span_with(|request: &Request<Body>| {
+                    let default_span = DefaultMakeSpan::default().make_span(request);
+                    let requestid = match request
+                        .extensions()
+                        .get::<RequestId>()
+                        .map(RequestId::header_value)
+                    {
+                        Some(req_id) => req_id.to_str().unwrap_or(""),
+                        None => {
+                            error!("cannot extract request-id");
+                            ""
+                        }
                     }
-                }
-                .to_string();
-                tracing::info_span!(parent: &default_span, "petnames", %requestid)
-            }),
+                    .to_string();
+                    tracing::info_span!(parent: &default_span, "petnames", %requestid)
+                }),
         )
         // PropagateRequestIdLayer must be befor SetRequestIdLayer
-        .layer(PropagateRequestIdLayer::new(x_request_id.clone()))
-        .layer(SetRequestIdLayer::new(x_request_id, MakeRequestUuid))
+        .layer(PropagateRequestIdLayer::new(X_REQUEST_ID.clone()))
+        .layer(SetRequestIdLayer::new(
+            X_REQUEST_ID.clone(),
+            MakeRequestUuid,
+        ))
         .route_layer(middleware::from_fn(track_metrics))
 }
 
@@ -130,7 +204,7 @@ async fn main() -> Result<()> {
     tracing_subscriber::registry()
         .with(tracing_subscriber::EnvFilter::new(
             std::env::var("RUST_LOG")
-                .unwrap_or_else(|_| "petnames_fly=debug,tower_http=debug".into()),
+                .unwrap_or_else(|_| "petnames_generator=debug,tower_http=debug".into()),
         ))
         .with(tracing_subscriber::fmt::layer())
         .init();
@@ -157,7 +231,10 @@ fn setup_metrics_recorder() -> Result<PrometheusHandle> {
 }
 
 async fn handler_404() -> impl IntoResponse {
-    (StatusCode::NOT_FOUND, "page not found")
+    (
+        StatusCode::NOT_FOUND,
+        render!(templates::not_found, statics::VERSION_INFO),
+    )
 }
 
 async fn track_metrics<B>(req: Request<B>, next: Next<B>) -> impl IntoResponse {

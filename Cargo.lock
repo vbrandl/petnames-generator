@@ -766,7 +766,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "petnames-fly"
+name = "petnames-generator"
 version = "0.1.0"
 dependencies = [
  "anyhow",

@@ -8,45 +8,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="keywords" content="Hits-of-Code, GitHub, Badge" />
-    <meta name="description" content="Hits-of-Code Badges for Git repositories" />
-    <link rel="stylesheet" href="/static/@tacit_css_min_css.name" />
+    <meta name="keywords" content="Petnames" />
+    <meta name="description" content="Petnames" />
+    <link rel="stylesheet" href="/static/@mvp_css.name" />
     <title>@title</title>
 </head>
 <body>
 
-<section>
 <header>
     <h1>@header</h1>
 </header>
 
-<article>
+<main>
+    <hr />
     @:content()
-</article>
+</main>
 
 <footer>
-<nav>
+    <div>
+        <small>Created by <a href="https://www.vbrandl.net">Valentin Brandl</a>.</small>
+    </div>
+    <div>
+        <small>Petnames v@version_info.version - <a href="https://github.com/vbrandl/petnames-generator/commit/@version_info.commit">@version_info.commit</a></small>
+    </div>
+    <div>
     <ul>
-        <li>
-            <small>Created by <a href="https://www.vbrandl.net">Valentin Brandl</a>.</small>
-        </li>
-    </ul>
-</nav>
-<nav>
-    <ul>
-        <li>
-            <small>Petnames v@version_info.version - <a href="https://github.com/vbrandl/hoc/commit/@version_info.commit">@version_info.commit</a></small>
-        </li>
-    </ul>
-</nav>
-<nav>
-    <ul>
-        <li><small><a href="https://github.com/vbrandl/hoc">GitHub</a></small></li>
+        <li><small><a href="https://github.com/vbrandl/petnames-generator">GitHub</a></small></li>
         <li><small><a href="https://opensource.org/licenses/MIT">MIT License</a></small></li>
     </ul>
-</nav>
+    </div>
 </footer>
-</section>
 
 </body>
 </html>

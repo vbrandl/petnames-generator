@@ -5,7 +5,7 @@ RUN USER=root cargo new app
 WORKDIR /usr/src/app
 COPY Cargo.toml Cargo.lock ./
 # Needs at least a main.rs file with a main function
-RUN mkdir src && echo "fn main(){}" > src/main.rs
+RUN mkdir src && echo "fn main(){}" > src/main.rs && echo "fn main(){}" > src/build.rs
 # Will build all dependent crates in release mode
 RUN cargo build --release
 
@@ -27,6 +27,6 @@ USER app
 WORKDIR /app
 
 # Get compiled binaries from builder's cargo install directory
-COPY --from=builder /usr/src/app/target/release/petnames-fly /app/petnames-fly
+COPY --from=builder /usr/src/app/target/release/petnames-generator /app/petnames-generator
 
 # No CMD or ENTRYPOINT, see fly.toml with `cmd` override.
