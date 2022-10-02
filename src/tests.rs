@@ -19,6 +19,33 @@ async fn root() -> Result<()> {
 }
 
 #[tokio::test]
+async fn bad_request() -> Result<()> {
+    let mut app = app();
+
+    let response = app
+        .call(
+            Request::builder()
+                .uri("/?words_per_name=-1")
+                .body(Body::empty())?,
+        )
+        .await?;
+
+    assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+
+    let response = app
+        .call(
+            Request::builder()
+                .uri("/?number_of_names=-1")
+                .body(Body::empty())?,
+        )
+        .await?;
+
+    assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+
+    Ok(())
+}
+
+#[tokio::test]
 async fn not_found() -> Result<()> {
     let app = app();
 
