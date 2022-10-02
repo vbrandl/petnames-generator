@@ -19,6 +19,33 @@ async fn root() -> Result<()> {
 }
 
 #[tokio::test]
+async fn bad_request() -> Result<()> {
+    let mut app = app();
+
+    let response = app
+        .call(
+            Request::builder()
+                .uri("/?words_per_name=-1")
+                .body(Body::empty())?,
+        )
+        .await?;
+
+    assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+
+    let response = app
+        .call(
+            Request::builder()
+                .uri("/?number_of_names=-1")
+                .body(Body::empty())?,
+        )
+        .await?;
+
+    assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+
+    Ok(())
+}
+
+#[tokio::test]
 async fn not_found() -> Result<()> {
     let app = app();
 
@@ -75,9 +102,7 @@ async fn metrics() -> Result<()> {
     assert_eq!(response.status(), StatusCode::OK);
     let body = hyper::body::to_bytes(response.into_body()).await?;
     let body = String::from_utf8(body.to_vec()).unwrap();
-    assert!(dbg!(body).contains(
-        "# TYPE http_requests_total counter\nhttp_requests_total{method=\"GET\",path=\"/metrics\",status=\"200\"}"
-    ));
+    assert!(body.contains("http_requests_total{method=\"GET\",path=\"/metrics\",status=\"200\"}"));
 
     Ok(())
 }
