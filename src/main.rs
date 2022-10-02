@@ -4,7 +4,7 @@ use axum::{
     handler::Handler,
     http::{Request, StatusCode},
     middleware::{self, Next},
-    response::IntoResponse,
+    response::{IntoResponse, Response},
     routing::get,
     Router, Server, TypedHeader,
 };
@@ -132,16 +132,21 @@ fn generate_names(words_per_name: u8, separator: &str, number_of_names: usize) -
     //     .collect();
 }
 
-async fn root(Query(query): Query<GenerateQuery>) -> impl IntoResponse {
-    let words_per_name = query.words_per_name.unwrap_or(DEFAULT_WORDS_PER_NAME);
-    let separator = query.separator.as_deref().unwrap_or(DEFAULT_SEPARATOR);
-    let number_of_names = query
-        .number_of_names
-        .map(usize::from)
-        .unwrap_or(DEFAULT_NUMBER_OF_NAMES);
-    let names = generate_names(words_per_name, separator, number_of_names);
+async fn root(query: Option<Query<GenerateQuery>>) -> Response {
+    if let Some(Query(query)) = query {
+        let words_per_name = query.words_per_name.unwrap_or(DEFAULT_WORDS_PER_NAME);
+        let separator = query.separator.as_deref().unwrap_or(DEFAULT_SEPARATOR);
+        let number_of_names = query
+            .number_of_names
+            .map(usize::from)
+            .unwrap_or(DEFAULT_NUMBER_OF_NAMES);
+        let names = generate_names(words_per_name, separator, number_of_names);
 
-    render!(templates::index, &names, query, statics::VERSION_INFO)
+        render!(templates::index, &names, query, statics::VERSION_INFO).into_response()
+    } else {
+        // TODO: error handling
+        handler_404().await.into_response()
+    }
 }
 
 async fn static_files(Path(filename): Path<String>) -> impl IntoResponse {
