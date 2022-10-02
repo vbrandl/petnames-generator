@@ -77,7 +77,7 @@ where
 fn generate_names(words_per_name: u8, separator: &str, number_of_names: usize) -> Vec<String> {
     // first generate names with a non-empty separator so we can capitalize the first letters
     static TEMP_SEPARATOR: &str = "-";
-    let petnames = Petnames::large();
+    let petnames = Petnames::medium();
     let mut rng = rand::thread_rng();
     repeat_with(|| {
         petnames
