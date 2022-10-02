@@ -778,6 +778,7 @@ dependencies = [
  "metrics-exporter-prometheus",
  "mime",
  "petname",
+ "rand",
  "ructe",
  "serde",
  "tokio",

@@ -12,6 +12,7 @@ use headers::{ContentType, Expires};
 use hyper::{header::HeaderName, Body};
 use lazy_static::lazy_static;
 use metrics_exporter_prometheus::{Matcher, PrometheusBuilder, PrometheusHandle};
+use petname::Petnames;
 use serde::{de, Deserialize, Deserializer};
 use tokio::signal;
 use tower_http::{
@@ -76,8 +77,11 @@ where
 fn generate_names(words_per_name: u8, separator: &str, number_of_names: usize) -> Vec<String> {
     // first generate names with a non-empty separator so we can capitalize the first letters
     static TEMP_SEPARATOR: &str = "-";
+    let petnames = Petnames::large();
+    let mut rng = rand::thread_rng();
     repeat_with(|| {
-        petname::petname(words_per_name, TEMP_SEPARATOR)
+        petnames
+            .generate(&mut rng, words_per_name, TEMP_SEPARATOR)
             .split(TEMP_SEPARATOR)
             .map(|name| {
                 // capitalize first letters
@@ -101,7 +105,7 @@ fn generate_names(words_per_name: u8, separator: &str, number_of_names: usize) -
     .collect()
 
     // TODO: wait for https://github.com/allenap/rust-petname/issues/61 to be fixed
-    // TODO: the solution above might return non-unique names
+    // TODO: the solution above might return non-unique names (https://github.com/vbrandl/petnames-generator/issues/1)
     // let names: Vec<_> = petnames
     //     .iter_non_repeating(&mut rng, words, DEFAULT_SEPARATOR)
     //     .map(|name| {
