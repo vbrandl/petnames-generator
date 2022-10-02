@@ -44,7 +44,7 @@ mod statics;
 #[cfg(test)]
 mod tests;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Default)]
 pub struct GenerateQuery {
     #[serde(default, deserialize_with = "empty_string_as_none")]
     words_per_name: Option<u8>,
@@ -144,8 +144,9 @@ async fn root(query: Option<Query<GenerateQuery>>) -> Response {
 
         render!(templates::index, &names, query, statics::VERSION_INFO).into_response()
     } else {
-        // TODO: error handling
-        handler_404().await.into_response()
+        handler_400("You performed an invalid requests, most likely, by passing a negative number.")
+            .await
+            .into_response()
     }
 }
 
@@ -170,6 +171,13 @@ async fn handler_404() -> impl IntoResponse {
     (
         StatusCode::NOT_FOUND,
         render!(templates::not_found, statics::VERSION_INFO),
+    )
+}
+
+async fn handler_400(message: &str) -> impl IntoResponse + '_ {
+    (
+        StatusCode::BAD_REQUEST,
+        render!(templates::bad_request, message, statics::VERSION_INFO),
     )
 }
 

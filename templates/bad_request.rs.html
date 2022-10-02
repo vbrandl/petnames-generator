@@ -1,0 +1,11 @@
+@use super::base;
+@use crate::statics::VersionInfo;
+
+@(message: &str, version_info: VersionInfo)
+
+@:base("Bad Request - Petnames", "Bad Request", {
+<section>
+    <h4>@message</h4>
+    <header><p><a href="/"><i>Try again</i></a></p></header>
+</section>
+}, version_info)
