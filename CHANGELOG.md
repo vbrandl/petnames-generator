@@ -8,8 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
  * Better layout for generated names ([#7])
- * Proper handling of invalid queries ([#7])
  * Prefill form with parameters from current query ([#7])
+
+### Fixed
+
+ * Proper rejection of invalid queries ([#7])
 
 [#7]: https://github.com/vbrandl/petnames-generator/pull/7
 
