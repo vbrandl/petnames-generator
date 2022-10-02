@@ -12,7 +12,7 @@ RUN cargo build --release
 # Copy the rest
 COPY . .
 
-RUN touch src/main.rs
+RUN touch src/main.rs && touch src/build.rs
 
 # Build (install) the actual binaries
 RUN cargo build --release
