@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.4.0] 2022-10-02
+
 ### Changed
 
  * Error page for bad requests ([#11])
