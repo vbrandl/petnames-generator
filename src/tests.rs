@@ -76,8 +76,7 @@ async fn metrics() -> Result<()> {
     let body = hyper::body::to_bytes(response.into_body()).await?;
     let body = String::from_utf8(body.to_vec()).unwrap();
     assert!(dbg!(body).contains(
-        "# TYPE http_requests_total counter
-http_requests_total{method=\"GET\",path=\"/metrics\",status=\"200\"}"
+        "# TYPE http_requests_total counter\nhttp_requests_total{method=\"GET\",path=\"/metrics\",status=\"200\"}"
     ));
 
     Ok(())
