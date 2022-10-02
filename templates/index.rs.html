@@ -5,18 +5,9 @@
 
 @:base("Petnames", "Petnames", {
 <section>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-            </tr>
-        </thead>
-        @for name in names {
-        <tr>
-            <th><code>@name</code></th>
-        </tr>
-        }
-    </table>
+@for name in names {
+    <aside><code>@name</code></aside>
+}
 
     <hr />
 
