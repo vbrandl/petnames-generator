@@ -5,6 +5,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+ * Error page for bad requests ([#11])
+ * Use matching layout for bad request and not found error pages ([#11])
+
+### Fixed
+
+ * Minor HTML fixes ([#11])
+
+
+[#11]: https://github.com/vbrandl/petnames-generator/pull/11
+
+
 ## [0.3.0] 2022-10-02
 
 ### Changed
