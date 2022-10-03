@@ -137,15 +137,6 @@ async fn metrics_server() -> Result<()> {
 
     assert_eq!(response.status(), StatusCode::OK);
 
-    let response = app
-        .call(Request::builder().uri("/metrics").body(Body::empty())?)
-        .await?;
-
-    assert_eq!(response.status(), StatusCode::OK);
-    let body = hyper::body::to_bytes(response.into_body()).await?;
-    let body = String::from_utf8(body.to_vec()).unwrap();
-    assert!(body.contains("http_requests_total{method=\"GET\",path=\"/metrics\",status=\"200\"}"));
-
     Ok(())
 }
 
