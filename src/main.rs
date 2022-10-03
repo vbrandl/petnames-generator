@@ -245,12 +245,18 @@ async fn shutdown_signal() {
     info!("signal received, starting graceful shutdown");
 }
 
-fn app() -> Router {
-    static X_REQUEST_ID: HeaderName = HeaderName::from_static("x-request-id");
+fn metrics_app() -> Router {
     let prometheus_handle = metric::PROMETHEUS_HANDLE.clone();
     Router::new()
-        .route("/", get(root))
         .route("/metrics", get(move || ready(prometheus_handle.render())))
+        .layer(TraceLayer::new_for_http())
+        .route_layer(middleware::from_fn(track_metrics))
+}
+
+fn app() -> Router {
+    static X_REQUEST_ID: HeaderName = HeaderName::from_static("x-request-id");
+    Router::new()
+        .route("/", get(root))
         .route("/static/:filename", get(static_files))
         .fallback(handler_404.into_service())
         .layer(
@@ -282,6 +288,22 @@ fn app() -> Router {
         .route_layer(middleware::from_fn(track_metrics))
 }
 
+async fn start_webserver() -> Result<()> {
+    let addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 8080));
+    Ok(Server::bind(&addr)
+        .serve(app().into_make_service())
+        .with_graceful_shutdown(shutdown_signal())
+        .await?)
+}
+
+async fn start_metrics_server() -> Result<()> {
+    let metrics_addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 3000));
+    Ok(Server::bind(&metrics_addr)
+        .serve(metrics_app().into_make_service())
+        .with_graceful_shutdown(shutdown_signal())
+        .await?)
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
     tracing_subscriber::registry()
@@ -292,10 +314,11 @@ async fn main() -> Result<()> {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 8080));
-    Server::bind(&addr)
-        .serve(app().into_make_service())
-        .with_graceful_shutdown(shutdown_signal())
-        .await?;
+    let (webserver, metrics_server) = tokio::join!(start_webserver(), start_metrics_server());
+
+    // consume the results
+    webserver?;
+    metrics_server?;
+
     Ok(())
 }
