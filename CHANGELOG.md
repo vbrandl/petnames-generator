@@ -5,6 +5,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+ * Reject zero for numeric parameters by using `NonZeroU8` ([#17])
+
+### Fixed
+
+ * Ensure uniqueness for generated names. Temporary fix for [#1] ([#17])
+
+
+[#1]: https://github.com/vbrandl/petnames-generator/pull/1
+[#17]: https://github.com/vbrandl/petnames-generator/pull/17
+
 
 ## [0.4.0] 2022-10-02
 

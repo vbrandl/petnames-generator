@@ -21,10 +21,12 @@ use tracing::{error, info};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use std::{
+    collections::HashSet,
     fmt,
     future::ready,
     iter::repeat_with,
     net::SocketAddr,
+    num::{NonZeroU8, NonZeroUsize},
     str::FromStr,
     time::{Duration, Instant, SystemTime},
 };
@@ -47,11 +49,11 @@ mod tests;
 #[derive(Deserialize, Default)]
 pub struct GenerateQuery {
     #[serde(default, deserialize_with = "empty_string_as_none")]
-    words_per_name: Option<u8>,
+    words_per_name: Option<NonZeroU8>,
     // #[serde(default, deserialize_with = "empty_string_as_none")]
     separator: Option<String>,
     #[serde(default, deserialize_with = "empty_string_as_none")]
-    number_of_names: Option<u8>,
+    number_of_names: Option<NonZeroU8>,
 }
 
 // handle empty strings in query as `None`
@@ -68,61 +70,69 @@ where
     }
 }
 
-fn generate_names(words_per_name: u8, separator: &str, number_of_names: usize) -> Vec<String> {
-    // first generate names with a non-empty separator so we can capitalize the first letters
-    static TEMP_SEPARATOR: &str = "-";
-    let petnames = Petnames::medium();
-    let mut rng = rand::thread_rng();
-    repeat_with(|| {
-        petnames
-            .generate(&mut rng, words_per_name, TEMP_SEPARATOR)
-            .split(TEMP_SEPARATOR)
-            .map(|name| {
-                // capitalize first letters
-                name.chars().fold(
-                    (String::with_capacity(name.len()), true),
-                    |(mut builder, first), next| {
-                        builder.push(if first {
-                            next.to_ascii_uppercase()
-                        } else {
-                            next
-                        });
-                        (builder, false)
-                    },
-                )
+fn capitalize_first_letters(input: &str) -> String {
+    input
+        .chars()
+        .fold(
+            (String::with_capacity(input.len()), true),
+            |(mut builder, first), next| {
+                builder.push(if first {
+                    next.to_ascii_uppercase()
+                } else {
+                    next
+                });
+                (builder, false)
+            },
+        )
+        .0
+}
+
+/// Generate random usernames. Since `petnames::iter_non_repeating` does currently not work as
+/// expected, the names are collected into a `HashSet` to get unique names. The function calls
+/// itself recursively until the set contains exactly `number_of_names` names.
+pub(crate) fn generate_names(
+    mut set: HashSet<String>,
+    words_per_name: NonZeroU8,
+    separator: &str,
+    number_of_names: NonZeroUsize,
+) -> HashSet<String> {
+    // exit condition for recursion: `number_of_names` unique names were generated
+    if set.len() >= number_of_names.get() {
+        set
+    } else {
+        // first generate names with a non-empty separator so we can split and capitalize the first letters
+        static TEMP_SEPARATOR: &str = "-";
+        let petnames = Petnames::medium();
+        let mut rng = rand::thread_rng();
+        set.extend(
+            repeat_with(|| {
+                petnames
+                    .generate(&mut rng, words_per_name.get(), TEMP_SEPARATOR)
+                    .split(TEMP_SEPARATOR)
+                    .map(capitalize_first_letters)
+                    .collect::<Vec<_>>()
+                    // use the user-supplied separator to join the capitalized parts of the username
+                    .join(separator)
             })
-            .map(|(name, _)| name)
-            .collect::<Vec<_>>()
-            .join(separator)
-    })
-    .take(number_of_names)
-    .collect()
+            // only generate the missing amount of names to get exactly `number_of_names` entries
+            .take(number_of_names.get() - set.len()),
+        );
+        // recurse
+        generate_names(set, words_per_name, separator, number_of_names)
+    }
 
     // TODO: wait for https://github.com/allenap/rust-petname/issues/61 to be fixed
     // TODO: the solution above might return non-unique names (https://github.com/vbrandl/petnames-generator/issues/1)
     // let names: Vec<_> = petnames
-    //     .iter_non_repeating(&mut rng, words, DEFAULT_SEPARATOR)
+    //     .iter_non_repeating(&mut rng, words_per_name, TEMP_SEPARATOR)
     //     .map(|name| {
     //         name.split(DEFAULT_SEPARATOR)
-    //             .map(|n| {
-    //                 // capitalize first letters
-    //                 n.chars().fold(
-    //                     (String::with_capacity(n.len()), true),
-    //                     |(mut builder, first), next| {
-    //                         builder.push(if first {
-    //                             next.to_ascii_uppercase()
-    //                         } else {
-    //                             next
-    //                         });
-    //                         (builder, false)
-    //                     },
-    //                 )
-    //             })
-    //             .map(|(name, _)| name)
+    //             .map(capitalize_first_letters)
     //             .collect::<Vec<_>>()
+    //              // use the user-supplied separator to join the capitalized parts of the username
     //             .join(separator)
     //     })
-    //     .take(names)
+    //     .take(number_of_names)
     //     .collect();
 }
 
@@ -138,15 +148,17 @@ async fn root(query: Option<Query<GenerateQuery>>) -> Response {
         let words_per_name = words_per_name.unwrap_or(DEFAULT_WORDS_PER_NAME);
         let separator = separator.as_deref().unwrap_or(DEFAULT_SEPARATOR);
         let number_of_names = number_of_names
-            .map(usize::from)
+            .map(NonZeroUsize::from)
             .unwrap_or(DEFAULT_NUMBER_OF_NAMES);
-        let names = generate_names(words_per_name, separator, number_of_names);
+        let names = generate_names(HashSet::new(), words_per_name, separator, number_of_names);
 
         render!(templates::index, &names, query, statics::VERSION_INFO).into_response()
     } else {
-        handler_400("You performed an invalid requests, most likely, by passing a negative number.")
-            .await
-            .into_response()
+        handler_400(
+            "You performed an invalid requests, most likely, by passing a negative number or zero.",
+        )
+        .await
+        .into_response()
     }
 }
 
