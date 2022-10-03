@@ -24,6 +24,8 @@ tracing = "0.1.36"
 tracing-subscriber = { version = "0.3.15", features = ["env-filter"] }
 
 [dev-dependencies]
+quickcheck = { version = "1.0.3", default-features = false }
+quickcheck_macros = "1.0.0"
 tower = { version = "0.4.13", features = ["util"] }
 
 [build-dependencies]
