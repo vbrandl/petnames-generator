@@ -25,6 +25,7 @@ use std::{
     future::ready,
     iter::repeat_with,
     net::SocketAddr,
+    num::{NonZeroU8, NonZeroUsize},
     str::FromStr,
     time::{Duration, Instant, SystemTime},
 };
@@ -47,11 +48,11 @@ mod tests;
 #[derive(Deserialize, Default)]
 pub struct GenerateQuery {
     #[serde(default, deserialize_with = "empty_string_as_none")]
-    words_per_name: Option<u8>,
+    words_per_name: Option<NonZeroU8>,
     // #[serde(default, deserialize_with = "empty_string_as_none")]
     separator: Option<String>,
     #[serde(default, deserialize_with = "empty_string_as_none")]
-    number_of_names: Option<u8>,
+    number_of_names: Option<NonZeroU8>,
 }
 
 // handle empty strings in query as `None`
@@ -138,15 +139,17 @@ async fn root(query: Option<Query<GenerateQuery>>) -> Response {
         let words_per_name = words_per_name.unwrap_or(DEFAULT_WORDS_PER_NAME);
         let separator = separator.as_deref().unwrap_or(DEFAULT_SEPARATOR);
         let number_of_names = number_of_names
-            .map(usize::from)
+            .map(NonZeroUsize::from)
             .unwrap_or(DEFAULT_NUMBER_OF_NAMES);
         let names = generate_names(words_per_name, separator, number_of_names);
 
         render!(templates::index, &names, query, statics::VERSION_INFO).into_response()
     } else {
-        handler_400("You performed an invalid requests, most likely, by passing a negative number.")
-            .await
-            .into_response()
+        handler_400(
+            "You performed an invalid requests, most likely, by passing a negative number or zero.",
+        )
+        .await
+        .into_response()
     }
 }
 
