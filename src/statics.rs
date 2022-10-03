@@ -1,11 +1,11 @@
 pub struct VersionInfo<'a> {
     pub commit: &'a str,
-    pub version: &'a str,
+    pub semver: &'a str,
 }
 
 pub const VERSION_INFO: VersionInfo = VersionInfo {
     commit: env!("VERGEN_GIT_SHA_SHORT"),
-    version: env!("CARGO_PKG_VERSION"),
+    semver: env!("VERGEN_GIT_SEMVER_LIGHTWEIGHT"),
 };
 
 pub static DEFAULT_SEPARATOR: &str = "";
