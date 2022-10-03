@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+### Fixed
+
+ * [#21]: Clean git repository for deployment image ([#22])
+
+
+[#21]: https://github.com/vbrandl/petnames-generator/pull/21
+[#22]: https://github.com/vbrandl/petnames-generator/pull/22
+
+
 ## [0.6.0] 2022-10-03
 
 ### Changed

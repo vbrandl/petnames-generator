@@ -14,6 +14,13 @@ COPY . .
 
 RUN touch src/main.rs && touch src/build.rs
 
+# TODO, HACK: This is a temporary workaround for
+# https://github.com/vbrandl/petnames-generator/issues/21
+# `flyctl deploy` deletes or ignores `fly.toml` when building the image, this
+# causes the repo to be dirty at build time which breaks the version info in
+# the footer
+RUN git checkout fly.toml
+
 # Build (install) the actual binaries
 RUN cargo build --release
 
