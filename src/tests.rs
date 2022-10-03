@@ -1,9 +1,10 @@
-use super::*;
 use axum::{
     body::Body,
     http::{Request, StatusCode},
 };
 use tower::{Service, ServiceExt};
+
+use super::*;
 
 #[tokio::test]
 async fn root() -> Result<()> {
@@ -19,13 +20,13 @@ async fn root() -> Result<()> {
 }
 
 #[tokio::test]
-async fn bad_request() -> Result<()> {
+async fn reject_negative() -> Result<()> {
     let mut app = app();
 
     let response = app
         .call(
             Request::builder()
-                .uri("/?words_per_name=-1")
+                .uri("/?words_per_name=-2")
                 .body(Body::empty())?,
         )
         .await?;
@@ -36,6 +37,33 @@ async fn bad_request() -> Result<()> {
         .call(
             Request::builder()
                 .uri("/?number_of_names=-1")
+                .body(Body::empty())?,
+        )
+        .await?;
+
+    assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+
+    Ok(())
+}
+
+#[tokio::test]
+async fn reject_zero() -> Result<()> {
+    let mut app = app();
+
+    let response = app
+        .call(
+            Request::builder()
+                .uri("/?words_per_name=0")
+                .body(Body::empty())?,
+        )
+        .await?;
+
+    assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+
+    let response = app
+        .call(
+            Request::builder()
+                .uri("/?number_of_names=0")
                 .body(Body::empty())?,
         )
         .await?;

@@ -1,4 +1,7 @@
 @use super::base;
+@use std::{
+    num::NonZeroU8,
+};
 @use crate::{
     GenerateQuery,
     statics::{VersionInfo, DEFAULT_NUMBER_OF_NAMES, DEFAULT_SEPARATOR, DEFAULT_WORDS_PER_NAME}
@@ -19,10 +22,10 @@
         <input type="text" id="separator" name="separator" value="@(query.separator.as_deref().unwrap_or(""))" placeholder="@(DEFAULT_SEPARATOR)">
 
         <label for="words_per_name">Words per Name</label>
-        <input type="number" id="words_per_name" name="words_per_name" value="@(query.words_per_name.as_ref().map(u8::to_string).as_deref().unwrap_or(""))" placeholder="@(DEFAULT_WORDS_PER_NAME)">
+        <input type="number" id="words_per_name" name="words_per_name" value="@(query.words_per_name.as_ref().map(NonZeroU8::to_string).as_deref().unwrap_or(""))" placeholder="@(DEFAULT_WORDS_PER_NAME)">
 
         <label for="number_of_names">Number of Names</label>
-        <input type="number" id="number_of_names" name="number_of_names" value="@(query.number_of_names.as_ref().map(u8::to_string).as_deref().unwrap_or(""))" placeholder="@(DEFAULT_NUMBER_OF_NAMES)">
+        <input type="number" id="number_of_names" name="number_of_names" value="@(query.number_of_names.as_ref().map(NonZeroU8::to_string).as_deref().unwrap_or(""))" placeholder="@(DEFAULT_NUMBER_OF_NAMES)">
 
         <button type="submit">Generate</button>
     </form>
