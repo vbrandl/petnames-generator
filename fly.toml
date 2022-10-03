@@ -10,7 +10,7 @@ cmd = "./petnames-generator"
 PORT = "8080"
 
 [metrics]
-port = 8080
+port = 3000
 path = "/metrics"
 
 [[services]]

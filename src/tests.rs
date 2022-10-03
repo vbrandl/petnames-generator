@@ -115,8 +115,21 @@ async fn contains_request_id() -> Result<()> {
 }
 
 #[tokio::test]
-async fn metrics() -> Result<()> {
-    let mut app = app();
+async fn metrics_not_available_on_webserver() -> Result<()> {
+    let app = app();
+
+    let response = app
+        .oneshot(Request::builder().uri("/metrics").body(Body::empty())?)
+        .await?;
+
+    assert_eq!(response.status(), StatusCode::NOT_FOUND);
+
+    Ok(())
+}
+
+#[tokio::test]
+async fn metrics_server() -> Result<()> {
+    let mut app = metrics_app();
 
     let response = app
         .call(Request::builder().uri("/metrics").body(Body::empty())?)
