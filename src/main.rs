@@ -250,7 +250,6 @@ fn metrics_app() -> Router {
     Router::new()
         .route("/metrics", get(move || ready(prometheus_handle.render())))
         .layer(TraceLayer::new_for_http())
-        .route_layer(middleware::from_fn(track_metrics))
 }
 
 fn app() -> Router {
