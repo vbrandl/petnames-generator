@@ -2,6 +2,7 @@ use axum::{
     body::Body,
     http::{Request, StatusCode},
 };
+use quickcheck_macros::quickcheck;
 use tower::{Service, ServiceExt};
 
 use super::*;
@@ -133,4 +134,19 @@ async fn metrics() -> Result<()> {
     assert!(body.contains("http_requests_total{method=\"GET\",path=\"/metrics\",status=\"200\"}"));
 
     Ok(())
+}
+
+#[quickcheck]
+fn generated_names_are_unique(number_of_names: NonZeroU8) {
+    let number_of_names = NonZeroUsize::from(number_of_names);
+    assert_eq!(
+        generate_names(
+            HashSet::new(),
+            statics::DEFAULT_WORDS_PER_NAME,
+            statics::DEFAULT_SEPARATOR,
+            number_of_names
+        )
+        .len(),
+        number_of_names.get()
+    );
 }

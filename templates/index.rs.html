@@ -1,5 +1,6 @@
 @use super::base;
 @use std::{
+    collections::HashSet,
     num::NonZeroU8,
 };
 @use crate::{
@@ -7,7 +8,7 @@
     statics::{VersionInfo, DEFAULT_NUMBER_OF_NAMES, DEFAULT_SEPARATOR, DEFAULT_WORDS_PER_NAME}
 };
 
-@(names: &[String], query: &GenerateQuery, version_info: VersionInfo)
+@(names: &HashSet<String>, query: &GenerateQuery, version_info: VersionInfo)
 
 @:base("Petnames", "Petnames", {
 <section>
