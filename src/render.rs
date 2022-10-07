@@ -7,9 +7,9 @@ use tracing::error;
 macro_rules! render {
     ($template:path) => {{
         use $crate::render::Render;
-        Render(move |o| $template(o))
+        Render(|o| $template(o))
     }};
-    ($template:path, $($arg:expr),*) => {{
+    ($template:path, $($arg:expr),* $(,)*) => {{
         use $crate::render::Render;
         Render(move |o| $template(o, $($arg),*))
     }}
