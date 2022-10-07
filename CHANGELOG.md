@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * Return Internal Server Error response on rendering errors ([#29])
+* Allow optional trailing comma in `render!` macro ([#30])
 
 [#29]: https://github.com/vbrandl/petnames-generator/pull/29
+[#30]: https://github.com/vbrandl/petnames-generator/pull/30
 
 ## [0.9.0] 2022-10-07
 
