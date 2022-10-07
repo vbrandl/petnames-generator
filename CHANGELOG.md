@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.9.0] 2022-10-07
+
+### Changed
+
+ * Updated tracing from 0.1.36 to 0.1.37 ([#26])
+ * Updated tracing-subscriber from 0.3.15 to 0.3.16 ([#27])
+
+### Fixed
+
+ * Removed dependency on unmaintained `ansi_term` (RUSTSEC-2021-0139) ([#15])
+
+[#15]: https://github.com/vbrandl/petnames-generator/pull/15
+[#26]: https://github.com/vbrandl/petnames-generator/pull/26
+[#27]: https://github.com/vbrandl/petnames-generator/pull/27
+
 ## [0.8.0] 2022-10-03
 
 ### Changed
