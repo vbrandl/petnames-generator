@@ -5,6 +5,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+### Dependencies
+
+* Updated [`anyhow`](https://github.com/dtolnay/anyhow) from 1.0.65 to 1.0.66 ([#33])
+
+[#33]: https://github.com/vbrandl/petnames-generator/pull/33
+
+
 ### Changed
 
 * Return Internal Server Error response on rendering errors ([#29])
