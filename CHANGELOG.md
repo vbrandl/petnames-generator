@@ -9,8 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Dependencies
 
 * Updated [`anyhow`](https://github.com/dtolnay/anyhow) from 1.0.65 to 1.0.66 ([#33])
+* Updated [`axum`](https://github.com/tokio-rs/axum) from 0.5.16 to 0.5.17 ([#34])
 
 [#33]: https://github.com/vbrandl/petnames-generator/pull/33
+[#34]: https://github.com/vbrandl/petnames-generator/pull/34
 
 
 ### Changed
