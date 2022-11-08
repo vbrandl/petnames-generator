@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* Updated [`hyper`](https://github.com/hyperium/hyper) from 0.14.22 to 0.14.23 ([#38])
+
+[#38]: https://github.com/vbrandl/petnames-generator/pull/38
 
 ## [0.10.0] 2022-11-06
 
