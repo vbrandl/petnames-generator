@@ -5,9 +5,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-* Updated [`hyper`](https://github.com/hyperium/hyper) from 0.14.22 to 0.14.23 ([#38])
 
+## [0.11.0] 2022-11-21
+
+### Dependencies
+
+* Updated [`petname`](https://github.com/allenap/rust-petname) from 1.1.2 to 1.1.3 ([#37])
+* Updated [`hyper`](https://github.com/hyperium/hyper) from 0.14.22 to 0.14.23 ([#38])
+* Updated [`tokio`](https://github.com/tokio-rs/tokio) from 1.21.2 to 1.22.0 ([#40])
+
+[#37]: https://github.com/vbrandl/petnames-generator/pull/37
 [#38]: https://github.com/vbrandl/petnames-generator/pull/38
+[#40]: https://github.com/vbrandl/petnames-generator/pull/40
 
 ## [0.10.0] 2022-11-06
 
@@ -17,15 +26,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated [`axum`](https://github.com/tokio-rs/axum) from 0.5.16 to 0.5.17 ([#34])
 * Updated [`serde`](https://github.com/serde-rs/serde) from 1.0.145 to 1.0.147 ([#35])
 * Updated [`hyper`](https://github.com/hyperium/hyper) from 0.14.20 to 0.14.22 ([#36])
-* Updated [`petname`](https://github.com/allenap/rust-petname) from 1.1.2 to 1.1.3 ([#37])
-* Updated [`tokio`](https://github.com/tokio-rs/tokio) from 1.21.2 to 1.22.0 ([#40])
 
 [#33]: https://github.com/vbrandl/petnames-generator/pull/33
 [#34]: https://github.com/vbrandl/petnames-generator/pull/34
 [#35]: https://github.com/vbrandl/petnames-generator/pull/35
 [#36]: https://github.com/vbrandl/petnames-generator/pull/36
-[#37]: https://github.com/vbrandl/petnames-generator/pull/37
-[#40]: https://github.com/vbrandl/petnames-generator/pull/40
 
 
 ### Changed
