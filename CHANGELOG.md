@@ -11,11 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated [`vergen`](https://github.com/rustyhorde/vergen) from 7.4.2 to 7.4.3 ([#44])
 * Updated [`tower-http`](https://github.com/tower-rs/tower-http) from 0.3.4 to 0.3.5 ([#45])
 * Updated [`tokio`](https://github.com/tokio-rs/tokio) from 1.22.0 to 1.23.0 ([#47])
+* Updated [`serde`](https://github.com/serde-rs/serde) from 1.0.147 to 1.0.151 ([#49])
 
 [#43]: https://github.com/vbrandl/petnames-generator/pull/43
 [#44]: https://github.com/vbrandl/petnames-generator/pull/44
 [#45]: https://github.com/vbrandl/petnames-generator/pull/45
 [#47]: https://github.com/vbrandl/petnames-generator/pull/47
+[#49]: https://github.com/vbrandl/petnames-generator/pull/49
 
 
 ## [0.11.0] 2022-11-21
