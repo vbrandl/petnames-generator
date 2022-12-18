@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.12.0] 2022-12-18
+
 ### Dependencies
 
 * Updated [`axum`](https://github.com/tokio-rs/axum) from 0.5.17 to 0.6.0 ([#43])
