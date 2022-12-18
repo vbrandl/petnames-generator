@@ -22,7 +22,7 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use std::{
     collections::HashSet,
     fmt,
-    future::ready,
+    // future::ready,
     iter::repeat_with,
     net::SocketAddr,
     num::{NonZeroU8, NonZeroUsize},
@@ -244,12 +244,12 @@ async fn shutdown_signal() {
     info!("signal received, starting graceful shutdown");
 }
 
-fn metrics_app() -> Router {
-    let prometheus_handle = metric::PROMETHEUS_HANDLE.clone();
-    Router::new()
-        .route("/metrics", get(move || ready(prometheus_handle.render())))
-        .layer(TraceLayer::new_for_http())
-}
+// fn metrics_app() -> Router {
+//     let prometheus_handle = metric::PROMETHEUS_HANDLE.clone();
+//     Router::new()
+//         .route("/metrics", get(move || ready(prometheus_handle.render())))
+//         .layer(TraceLayer::new_for_http())
+// }
 
 fn app() -> Router {
     static X_REQUEST_ID: HeaderName = HeaderName::from_static("x-request-id");
@@ -294,13 +294,13 @@ async fn start_webserver() -> Result<()> {
         .await?)
 }
 
-async fn start_metrics_server() -> Result<()> {
-    let metrics_addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 3000));
-    Ok(Server::bind(&metrics_addr)
-        .serve(metrics_app().into_make_service())
-        .with_graceful_shutdown(shutdown_signal())
-        .await?)
-}
+// async fn start_metrics_server() -> Result<()> {
+//     let metrics_addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 3000));
+//     Ok(Server::bind(&metrics_addr)
+//         .serve(metrics_app().into_make_service())
+//         .with_graceful_shutdown(shutdown_signal())
+//         .await?)
+// }
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -312,11 +312,13 @@ async fn main() -> Result<()> {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let (webserver, metrics_server) = tokio::join!(start_webserver(), start_metrics_server());
+    // let (webserver, metrics_server) = tokio::join!(start_webserver(), start_metrics_server());
+
+    start_webserver().await?;
 
     // consume the results
-    webserver?;
-    metrics_server?;
+    // webserver?;
+    // metrics_server?;
 
     Ok(())
 }
