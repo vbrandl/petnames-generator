@@ -1,7 +1,6 @@
 use anyhow::Result;
 use axum::{
     extract::{MatchedPath, Path, Query},
-    handler::Handler,
     http::{Request, StatusCode},
     middleware::{self, Next},
     response::{IntoResponse, Response},
@@ -257,7 +256,7 @@ fn app() -> Router {
     Router::new()
         .route("/", get(root))
         .route("/static/:filename", get(static_files))
-        .fallback(handler_404.into_service())
+        .fallback(handler_404)
         .layer(
             TraceLayer::new_for_http()
                 // add request-id to trace span
