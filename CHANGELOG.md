@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Dependencies
 
 * Updated [`axum`](https://github.com/tokio-rs/axum) from 0.5.17 to 0.6.0 ([#43])
+* Bumps [`vergen`](https://github.com/rustyhorde/vergen) from 7.4.2 to 7.4.3 ([#44])
 
 [#43]: https://github.com/vbrandl/petnames-generator/pull/43
+[#44]: https://github.com/vbrandl/petnames-generator/pull/44
 
 
 ## [0.11.0] 2022-11-21
