@@ -114,31 +114,31 @@ async fn contains_request_id() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
-async fn metrics_not_available_on_webserver() -> Result<()> {
-    let app = app();
+// #[tokio::test]
+// async fn metrics_not_available_on_webserver() -> Result<()> {
+//     let app = app();
 
-    let response = app
-        .oneshot(Request::builder().uri("/metrics").body(Body::empty())?)
-        .await?;
+//     let response = app
+//         .oneshot(Request::builder().uri("/metrics").body(Body::empty())?)
+//         .await?;
 
-    assert_eq!(response.status(), StatusCode::NOT_FOUND);
+//     assert_eq!(response.status(), StatusCode::NOT_FOUND);
 
-    Ok(())
-}
+//     Ok(())
+// }
 
-#[tokio::test]
-async fn metrics_server() -> Result<()> {
-    let mut app = metrics_app();
+// #[tokio::test]
+// async fn metrics_server() -> Result<()> {
+//     let mut app = metrics_app();
 
-    let response = app
-        .call(Request::builder().uri("/metrics").body(Body::empty())?)
-        .await?;
+//     let response = app
+//         .call(Request::builder().uri("/metrics").body(Body::empty())?)
+//         .await?;
 
-    assert_eq!(response.status(), StatusCode::OK);
+//     assert_eq!(response.status(), StatusCode::OK);
 
-    Ok(())
-}
+//     Ok(())
+// }
 
 #[quickcheck]
 fn generated_names_are_unique(number_of_names: NonZeroU8) {
