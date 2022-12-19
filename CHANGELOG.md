@@ -5,6 +5,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.1] 2022-12-18
+
+* Disable metrics server, to maybe fix the Fly.io deployment ([#51])
+
+[#51]: https://github.com/vbrandl/petnames-generator/pull/51
 
 ## [0.12.0] 2022-12-18
 
