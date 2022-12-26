@@ -31,4 +31,4 @@ tower = { version = "0.4.13", features = ["util"] }
 [build-dependencies]
 anyhow = "1.0.68"
 ructe = { version = "0.15.0", features = ["mime03"] }
-vergen = { version = "7.4.3", default-features = false, features = ["git"] }
+vergen = { version = "7.4.4", default-features = false, features = ["git"] }
