@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated [`tokio`](https://github.com/tokio-rs/tokio) from 1.23.1 to 1.24.0 ([#57])
 * Updated [`vergen`](https://github.com/rustyhorde/vergen) from 7.4.4 to 7.5.0 ([#58])
 * Updated [`tokio`](https://github.com/tokio-rs/tokio) from 1.24.0 to 1.24.1 ([#60])
+* Updated [`axum`](https://github.com/tokio-rs/axum) from 0.6.1 to 0.6.2 ([#61])
 
 
 [#52]: https://github.com/vbrandl/petnames-generator/pull/52
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#57]: https://github.com/vbrandl/petnames-generator/pull/57
 [#58]: https://github.com/vbrandl/petnames-generator/pull/58
 [#60]: https://github.com/vbrandl/petnames-generator/pull/60
+[#61]: https://github.com/vbrandl/petnames-generator/pull/61
 
 ## [0.12.1] 2022-12-18
 
