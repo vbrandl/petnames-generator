@@ -1,9 +1,9 @@
-@use super::base;
+@use super::base_html;
 @use crate::statics::VersionInfo;
 
 @(version_info: VersionInfo)
 
-@:base("Page Not Found - Petnames", "Page Not Found", {
+@:base_html("Page Not Found - Petnames", "Page Not Found", {
 <section>
     <h4>The page you are looking for cannot be found.</h4>
     <header><a href="/"><i>Return to the home page</i></a></header>
