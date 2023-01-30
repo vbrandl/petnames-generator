@@ -1,9 +1,9 @@
-@use super::base;
+@use super::base_html;
 @use crate::statics::VersionInfo;
 
 @(message: &str, version_info: VersionInfo)
 
-@:base("Bad Request - Petnames", "Bad Request", {
+@:base_html("Bad Request - Petnames", "Bad Request", {
 <section>
     <h4>@message</h4>
     <header><p><a href="/"><i>Try again</i></a></p></header>

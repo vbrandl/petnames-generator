@@ -1,4 +1,4 @@
-@use super::base;
+@use super::base_html;
 @use std::{
     collections::HashSet,
     num::NonZeroU8,
@@ -10,7 +10,7 @@
 
 @(names: &HashSet<String>, query: &GenerateQuery, version_info: VersionInfo)
 
-@:base("Petnames", "Petnames", {
+@:base_html("Petnames", "Petnames", {
 <section>
 @for name in names {
     <aside><code>@name</code></aside>

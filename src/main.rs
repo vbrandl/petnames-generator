@@ -151,7 +151,7 @@ async fn root(query: Option<Query<GenerateQuery>>) -> Response {
             .unwrap_or(DEFAULT_NUMBER_OF_NAMES);
         let names = generate_names(HashSet::new(), words_per_name, separator, number_of_names);
 
-        render!(templates::index, &names, query, statics::VERSION_INFO).into_response()
+        render!(templates::index_html, &names, query, statics::VERSION_INFO).into_response()
     } else {
         handler_400(
             "You performed an invalid requests, most likely, by passing a negative number or zero.",
@@ -181,14 +181,14 @@ async fn static_files(Path(filename): Path<String>) -> impl IntoResponse {
 async fn handler_404() -> impl IntoResponse {
     (
         StatusCode::NOT_FOUND,
-        render!(templates::not_found, statics::VERSION_INFO),
+        render!(templates::not_found_html, statics::VERSION_INFO),
     )
 }
 
 async fn handler_400(message: &str) -> impl IntoResponse + '_ {
     (
         StatusCode::BAD_REQUEST,
-        render!(templates::bad_request, message, statics::VERSION_INFO),
+        render!(templates::bad_request_html, message, statics::VERSION_INFO),
     )
 }
 
