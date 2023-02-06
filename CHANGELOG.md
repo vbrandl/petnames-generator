@@ -22,8 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated [`axum`](https://github.com/tokio-rs/axum) from 0.6.2 to 0.6.4 ([#67])
 * Updated [`tokio`](https://github.com/tokio-rs/tokio) from 1.24.2 to 1.25.0 ([#68])
 * Updated [`ructe`](https://github.com/kaj/ructe) from 0.15.0 to 0.16.1 ([#69])
-* Update transitive dependencies in `Cargo.lock` ([#70])
-* Update [`hyper`](https://github.com/hyperium/hyper) from 0.14.23 to 0.14.24 ([#71])
+* Updated transitive dependencies in `Cargo.lock` ([#70])
+* Updated [`hyper`](https://github.com/hyperium/hyper) from 0.14.23 to 0.14.24 ([#71])
+* Updated [`anyhow`](https://github.com/dtolnay/anyhow) from 1.0.68 to 1.0.69 ([#72])
 
 
 [#52]: https://github.com/vbrandl/petnames-generator/pull/52
@@ -43,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#69]: https://github.com/vbrandl/petnames-generator/pull/69
 [#70]: https://github.com/vbrandl/petnames-generator/pull/70
 [#71]: https://github.com/vbrandl/petnames-generator/pull/71
+[#72]: https://github.com/vbrandl/petnames-generator/pull/72
 
 ## [0.12.1] 2022-12-18
 
