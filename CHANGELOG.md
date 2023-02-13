@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated transitive dependencies in `Cargo.lock` ([#70])
 * Updated [`hyper`](https://github.com/hyperium/hyper) from 0.14.23 to 0.14.24 ([#71])
 * Updated [`anyhow`](https://github.com/dtolnay/anyhow) from 1.0.68 to 1.0.69 ([#72])
+* Updated [vergen](https://github.com/rustyhorde/vergen) from 7.5.0 to 7.5.1 ([#73])
 
 
 [#52]: https://github.com/vbrandl/petnames-generator/pull/52
@@ -45,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#70]: https://github.com/vbrandl/petnames-generator/pull/70
 [#71]: https://github.com/vbrandl/petnames-generator/pull/71
 [#72]: https://github.com/vbrandl/petnames-generator/pull/72
+[#73]: https://github.com/vbrandl/petnames-generator/pull/73
 
 ## [0.12.1] 2022-12-18
 
