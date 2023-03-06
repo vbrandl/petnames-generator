@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.13.0] 2023-03-06
+
 ### Dependencies
 
 * Updated [`anyhow`](https://github.com/dtolnay/anyhow) from 1.0.66 to 1.0.68 ([#52])
