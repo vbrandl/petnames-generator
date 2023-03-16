@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Dependencies
 
 * Updated [`hyper`](https://github.com/hyperium/hyper) from 0.14.24 to 0.14.25 ([#86])
+* Updated [`serde`](https://github.com/serde-rs/serde) from 1.0.152 to 1.0.156 ([#87])
 
 [#86]: https://github.com/vbrandl/petnames-generator/pull/86
+[#87]: https://github.com/vbrandl/petnames-generator/pull/87
 
 
 ## [0.13.0] 2023-03-06
