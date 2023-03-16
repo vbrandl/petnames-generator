@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.14.0] 2023-03-16
+
 ### Dependencies
 
 * Updated [`hyper`](https://github.com/hyperium/hyper) from 0.14.24 to 0.14.25 ([#86])
