@@ -5,13 +5,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* Updated [`anyhow`](https://github.com/dtolnay/anyhow) from 1.0.69 to 1.0.70 ([#90])
+
+[#90]: https://github.com/vbrandl/petnames-generator/pull/90
 
 ## [0.14.0] 2023-03-16
 
 ### Dependencies
 
 * Updated [`hyper`](https://github.com/hyperium/hyper) from 0.14.24 to 0.14.25 ([#86])
-* Updated [`serde`](https://github.com/serde-rs/serde) from 1.0.152 to 1.0.156 ([#87])
+* Updated [`axum`](https://github.com/tokio-rs/axum) from 0.6.10 to 0.6.11 ([#87])
 * Updated [`serde`](https://github.com/serde-rs/serde) from 1.0.152 to 1.0.156 ([#88])
 
 [#86]: https://github.com/vbrandl/petnames-generator/pull/86
