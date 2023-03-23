@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Updated [`anyhow`](https://github.com/dtolnay/anyhow) from 1.0.69 to 1.0.70 ([#90])
 * Updated [`serde`](https://github.com/serde-rs/serde) from 1.0.156 to 1.0.158 ([#92])
+* Updated [`mime`](https://github.com/hyperium/mime) from 0.3.16 to 0.3.17 ([#93])
 
 [#90]: https://github.com/vbrandl/petnames-generator/pull/90
 [#92]: https://github.com/vbrandl/petnames-generator/pull/92
+[#93]: https://github.com/vbrandl/petnames-generator/pull/93
 
 ## [0.14.0] 2023-03-16
 
