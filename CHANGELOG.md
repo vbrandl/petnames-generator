@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated [`serde`](https://github.com/serde-rs/serde) from 1.0.158 to 1.0.159 ([#97])
 * Updated [`serde`](https://github.com/serde-rs/serde) from 1.0.159 to 1.0.160 ([#101])
 * Updated [`axum`](https://github.com/tokio-rs/axum) from 0.6.12 to 0.6.15 ([#102])
-* Bumps [`vergen`](https://github.com/rustyhorde/vergen) from 7.5.1 to 8.1.1 ([#99])
+* Updated [`vergen`](https://github.com/rustyhorde/vergen) from 7.5.1 to 8.1.1 ([#99])
+* Enable metrics endpoint again ([#103])
 
 [#90]: https://github.com/vbrandl/petnames-generator/pull/90
 [#92]: https://github.com/vbrandl/petnames-generator/pull/92
@@ -24,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#101]: https://github.com/vbrandl/petnames-generator/pull/101
 [#102]: https://github.com/vbrandl/petnames-generator/pull/102
 [#99]: https://github.com/vbrandl/petnames-generator/pull/99
+[#103]: https://github.com/vbrandl/petnames-generator/pull/103
 
 ## [0.14.0] 2023-03-16
 
