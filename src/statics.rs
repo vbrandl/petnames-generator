@@ -6,8 +6,8 @@ pub struct VersionInfo<'a> {
 }
 
 pub const VERSION_INFO: VersionInfo = VersionInfo {
-    commit: env!("VERGEN_GIT_SHA_SHORT"),
-    semver: env!("VERGEN_GIT_SEMVER_LIGHTWEIGHT"),
+    commit: env!("VERGEN_GIT_SHA"),
+    semver: env!("VERGEN_GIT_DESCRIBE"),
 };
 
 pub const DEFAULT_SEPARATOR: &str = "";
