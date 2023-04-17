@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Updated [`h2`](https://github.com/hyperium/h2) from 0.3.16 to 0.3.17, fixes [SEC#6] ([#105])
 * Updated [`hyper`](https://github.com/hyperium/hyper) from 0.14.25 to 0.14.26 ([#106])
+* Updated [`metrics`](https://github.com/metrics-rs/metrics) from 0.20.1 to 0.21.0 ([#107])
 
 [#105]: https://github.com/vbrandl/petnames-generator/pull/105
 [#106]: https://github.com/vbrandl/petnames-generator/pull/106
+[#107]: https://github.com/vbrandl/petnames-generator/pull/107
 
 [SEC#6]: https://github.com/vbrandl/petnames-generator/security/dependabot/6
 
