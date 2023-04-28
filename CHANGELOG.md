@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated [`metrics-exporter-prometheus`](https://github.com/metrics-rs/metrics) from 0.11.0 to 0.12.0 ([#108])
 * Updated [`axum`](https://github.com/tokio-rs/axum) from 0.6.15 to 0.6.16 ([#109])
 * Updated [`tracing-subscriber`](https://github.com/tokio-rs/tracing) from 0.3.16 to 0.3.17 ([#110])
+* Updated [`tracing`](https://github.com/tokio-rs/tracing) from 0.1.37 to 0.1.38 ([#111])
 
 [#105]: https://github.com/vbrandl/petnames-generator/pull/105
 [#106]: https://github.com/vbrandl/petnames-generator/pull/106
@@ -18,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#108]: https://github.com/vbrandl/petnames-generator/pull/108
 [#109]: https://github.com/vbrandl/petnames-generator/pull/109
 [#110]: https://github.com/vbrandl/petnames-generator/pull/110
+[#111]: https://github.com/vbrandl/petnames-generator/pull/111
 
 [SEC#6]: https://github.com/vbrandl/petnames-generator/security/dependabot/6
 
