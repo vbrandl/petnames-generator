@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated [`axum`](https://github.com/tokio-rs/axum) from 0.6.16 to 0.6.17 ([#112])
 * Updated [`tokio`](https://github.com/tokio-rs/tokio) from 1.27.0 to 1.28.0 ([#113])
 * Updated [`vergen`](https://github.com/rustyhorde/vergen) from 8.1.1 to 8.1.3 ([#115])
+* Downgrade yanked [`tracing`](https://github.com/tokio-rs/tracing) 0.1.38 to 0.1.37 ([#118])
 
 [#105]: https://github.com/vbrandl/petnames-generator/pull/105
 [#106]: https://github.com/vbrandl/petnames-generator/pull/106
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#112]: https://github.com/vbrandl/petnames-generator/pull/112
 [#113]: https://github.com/vbrandl/petnames-generator/pull/113
 [#115]: https://github.com/vbrandl/petnames-generator/pull/115
+[#118]: https://github.com/vbrandl/petnames-generator/pull/118
 
 [SEC#6]: https://github.com/vbrandl/petnames-generator/security/dependabot/6
 
