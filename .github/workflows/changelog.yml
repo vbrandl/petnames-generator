@@ -1,0 +1,23 @@
+name: 'pull-request'
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+      - labeled
+      - unlabeled
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: dangoslen/dependabot-changelog-helper@v2
+        with:
+          version: ${{ needs.setup.outputs.version }}
+          activationLabel: 'dependabot'
+          changelogPath: './CHANGELOG.md'
