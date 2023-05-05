@@ -18,6 +18,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: dangoslen/dependabot-changelog-helper@v3
         with:
-          version: ${{ needs.setup.outputs.version }}
           activationLabel: 'dependabot'
           changelogPath: './CHANGELOG.md'
