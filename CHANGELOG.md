@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Dependencies
 - Bump `serde` from 1.0.160 to 1.0.162 (#120)
+- Bump `tokio` from 1.28.0 to 1.28.1 (#129)
 
 
 ## [0.16.0] 2023-05-04
