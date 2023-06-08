@@ -5,7 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Dependencies
-- Bump `serde` from 1.0.160 to 1.0.163 (#120, #130)
+- Bump `serde` from 1.0.160 to 1.0.164 (#120, #130, #135)
 - Bump `tokio` from 1.28.0 to 1.28.2 (#129, #134)
 - Bump `metrics-exporter-prometheus` from 0.12.0 to 0.12.1 (#128)
 - Bump `vergen` from 8.1.3 to 8.2.1 (#132, #133)
