@@ -1,5 +1,6 @@
 use std::num::{NonZeroU8, NonZeroUsize};
 
+#[derive(Clone, Copy)]
 pub struct VersionInfo<'a> {
     pub commit: &'a str,
     pub semver: &'a str,

@@ -146,9 +146,7 @@ async fn root(query: Option<Query<GenerateQuery>>) -> Response {
     {
         let words_per_name = words_per_name.unwrap_or(DEFAULT_WORDS_PER_NAME);
         let separator = separator.as_deref().unwrap_or(DEFAULT_SEPARATOR);
-        let number_of_names = number_of_names
-            .map(NonZeroUsize::from)
-            .unwrap_or(DEFAULT_NUMBER_OF_NAMES);
+        let number_of_names = number_of_names.map_or(DEFAULT_NUMBER_OF_NAMES, NonZeroUsize::from);
         let names = generate_names(HashSet::new(), words_per_name, separator, number_of_names);
 
         render!(templates::index_html, &names, query, statics::VERSION_INFO).into_response()
@@ -178,6 +176,7 @@ async fn static_files(Path(filename): Path<String>) -> impl IntoResponse {
     }
 }
 
+#[allow(clippy::unused_async)]
 async fn handler_404() -> impl IntoResponse {
     (
         StatusCode::NOT_FOUND,
@@ -185,6 +184,7 @@ async fn handler_404() -> impl IntoResponse {
     )
 }
 
+#[allow(clippy::unused_async)]
 async fn handler_400(message: &str) -> impl IntoResponse + '_ {
     (
         StatusCode::BAD_REQUEST,
@@ -262,16 +262,15 @@ fn app() -> Router {
                 // add request-id to trace span
                 .make_span_with(|request: &Request<Body>| {
                     let default_span = DefaultMakeSpan::default().make_span(request);
-                    let requestid = match request
+                    let requestid = if let Some(req_id) = request
                         .extensions()
                         .get::<RequestId>()
                         .map(RequestId::header_value)
                     {
-                        Some(req_id) => req_id.to_str().unwrap_or(""),
-                        None => {
-                            error!("cannot extract request-id");
-                            ""
-                        }
+                        req_id.to_str().unwrap_or("")
+                    } else {
+                        error!("cannot extract request-id");
+                        ""
                     }
                     .to_string();
                     tracing::info_span!(parent: &default_span, "petnames", %requestid)
