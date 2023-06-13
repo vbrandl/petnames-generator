@@ -22,10 +22,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Cache cargo registry, index and build directory
         uses: actions/cache@v3
@@ -37,9 +34,7 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Run Tests
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
+        run: cargo test
 
   fmt:
     name: Rustfmt
@@ -49,18 +44,11 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@master
 
-      - name: Install rustfmt
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          components: rustfmt
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
 
-      - name: Run rustfmt
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+      - name: Check Formatting
+        run: cargo fmt --all -- --check
 
   clippy:
     name: Clippy
@@ -70,18 +58,8 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@master
 
-      - name: Install rustfmt
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          components: clippy
-
-      - name: Run rustfmt
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Cache cargo registry, index and build directory
         uses: actions/cache@v3
@@ -92,8 +70,7 @@ jobs:
             ./target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Run clippy
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -- -D warnings
+      - name: Clippy Linting
+        run: cargo clippy --all-features -- -Dclippy::all -Dclippy::pedantic
+      - name: Clippy Test Linting
+        run: cargo clippy --tests -- -Dclippy::all -Dclippy::pedantic
