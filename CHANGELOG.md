@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump `tokio` from 1.28.0 to 1.28.2 (#129, #134)
 - Bump `metrics-exporter-prometheus` from 0.12.0 to 0.12.1 (#128)
 - Bump `vergen` from 8.1.3 to 8.2.1 (#132, #133)
+- Bump `tower-http` from 0.4.0 to 0.4.1 (#138)
 
 
 ## [0.16.0] 2023-05-04
