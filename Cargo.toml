@@ -10,7 +10,7 @@ build = "src/build.rs"
 anyhow = "1.0.71"
 axum = { version = "0.6.18", features = ["headers"] }
 headers = "0.3.8"
-hyper = { version = "0.14.26", features = ["full"] }
+hyper = { version = "0.14.27", features = ["full"] }
 lazy_static = "1.4.0"
 metrics = "0.21.0"
 metrics-exporter-prometheus = "0.12.1"
