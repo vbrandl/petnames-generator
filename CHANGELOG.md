@@ -4,6 +4,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Dependencies
+- Bump `hyper` from 0.14.26 to 0.14.27 (#140)
 
 
 ## [0.17.0] 2023-06-21
