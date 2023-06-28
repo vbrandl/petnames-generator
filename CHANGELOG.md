@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Dependencies
 - Bump `hyper` from 0.14.26 to 0.14.27 (#140)
+- Bump `tokio` from 1.28.2 to 1.29.0 (#141)
 
 
 ## [0.17.0] 2023-06-21
