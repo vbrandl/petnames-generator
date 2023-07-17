@@ -7,7 +7,7 @@ edition = "2021"
 build = "src/build.rs"
 
 [dependencies]
-anyhow = "1.0.71"
+anyhow = "1.0.72"
 axum = { version = "0.6.18", features = ["headers"] }
 headers = "0.3.8"
 hyper = { version = "0.14.27", features = ["full"] }
@@ -29,6 +29,6 @@ quickcheck_macros = "1.0.0"
 tower = { version = "0.4.13", features = ["util"] }
 
 [build-dependencies]
-anyhow = "1.0.71"
+anyhow = "1.0.72"
 ructe = { version = "0.16.1", features = ["mime03"] }
 vergen = { version = "8.2.4", default-features = false, features = ["git", "gitoxide"] }
