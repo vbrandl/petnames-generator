@@ -8,7 +8,7 @@ build = "src/build.rs"
 
 [dependencies]
 anyhow = "1.0.72"
-axum = { version = "0.6.18", features = ["headers"] }
+axum = { version = "0.6.19", features = ["headers"] }
 headers = "0.3.8"
 hyper = { version = "0.14.27", features = ["full"] }
 lazy_static = "1.4.0"
