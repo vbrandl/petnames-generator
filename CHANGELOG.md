@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump `serde` from 1.0.164 to 1.0.171 (#145, #147, #148)
 - Bump `vergen` from 8.2.1 to 8.2.4 (#143, #146)
 - Bump `anyhow` from 1.0.71 to 1.0.72 (#149)
+- Bump `axum` from 0.6.18 to 0.6.19 (#150)
 
 
 ## [0.17.0] 2023-06-21
