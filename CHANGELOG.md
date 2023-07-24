@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump `anyhow` from 1.0.71 to 1.0.72 (#149)
 - Bump `axum` from 0.6.18 to 0.6.19 (#150)
 - Bump `tower-http` from 0.4.1 to 0.4.3 (#151, [#153](https://github.com/vbrandl/petnames-generator/pull/153))
+- Bump `ructe` from 0.16.1 to 0.17.0 ([#155](https://github.com/vbrandl/petnames-generator/pull/155))
 
 
 ## [0.17.0] 2023-06-21
