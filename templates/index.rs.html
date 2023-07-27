@@ -1,14 +1,11 @@
 @use super::base_html;
-@use std::{
-    collections::HashSet,
-    num::NonZeroU8,
-};
+@use std::num::NonZeroU8;
 @use crate::{
     GenerateQuery,
     statics::{VersionInfo, DEFAULT_NUMBER_OF_NAMES, DEFAULT_SEPARATOR, DEFAULT_WORDS_PER_NAME}
 };
 
-@(names: &HashSet<String>, query: &GenerateQuery, version_info: VersionInfo)
+@(names: &[String], query: &GenerateQuery, version_info: VersionInfo)
 
 @:base_html("Petnames", "Petnames", {
 <section>
