@@ -149,7 +149,7 @@ async fn root(query: Option<Query<GenerateQuery>>) -> Response {
         let number_of_names = number_of_names.map_or(DEFAULT_NUMBER_OF_NAMES, NonZeroUsize::from);
         let names = generate_names(HashSet::new(), words_per_name, separator, number_of_names);
 
-        render!(templates::index_html, &names, query, statics::VERSION_INFO).into_response()
+        render!(templates::index_html, &(names.into_iter().collect::<Vec<_>>()), query, statics::VERSION_INFO).into_response()
     } else {
         handler_400(
             "You performed an invalid requests, most likely, by passing a negative number or zero.",
