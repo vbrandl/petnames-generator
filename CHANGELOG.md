@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Dependencies
 - Bump `hyper` from 0.14.26 to 0.14.27 (#140)
-- Bump `tokio` from 1.28.2 to 1.30.0 (#141, #142, [#165](https://github.com/vbrandl/petnames-generator/pull/165))
+- Bump `tokio` from 1.28.2 to 1.31.0 (#141, #142, [#165](https://github.com/vbrandl/petnames-generator/pull/165), [#166](https://github.com/vbrandl/petnames-generator/pull/166))
 - Bump `metrics` from 0.21.0 to 0.21.1 (#144)
 - Bump `serde` from 1.0.164 to 1.0.183 (#145, #147, #148, [#154](https://github.com/vbrandl/petnames-generator/pull/154), [#156](https://github.com/vbrandl/petnames-generator/pull/156), [#157](https://github.com/vbrandl/petnames-generator/pull/157), [#159](https://github.com/vbrandl/petnames-generator/pull/159), [#160](https://github.com/vbrandl/petnames-generator/pull/160), [#161](https://github.com/vbrandl/petnames-generator/pull/161), [#163](https://github.com/vbrandl/petnames-generator/pull/163), [#164](https://github.com/vbrandl/petnames-generator/pull/164))
 - Bump `vergen` from 8.2.1 to 8.2.4 (#143, #146)
