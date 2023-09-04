@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump `vergen` from 8.2.1 to 8.2.4 (#143, #146)
 - Bump `anyhow` from 1.0.71 to 1.0.75 (#149, [#167](https://github.com/vbrandl/petnames-generator/pull/167), [#168](https://github.com/vbrandl/petnames-generator/pull/168))
 - Bump `axum` from 0.6.18 to 0.6.20 (#150, [#162](https://github.com/vbrandl/petnames-generator/pull/162))
-- Bump `tower-http` from 0.4.1 to 0.4.3 (#151, [#153](https://github.com/vbrandl/petnames-generator/pull/153))
+- Bump `tower-http` from 0.4.1 to 0.4.4 (#151, [#153](https://github.com/vbrandl/petnames-generator/pull/153), [#172](https://github.com/vbrandl/petnames-generator/pull/172))
 - Bump `ructe` from 0.16.1 to 0.17.0 ([#155](https://github.com/vbrandl/petnames-generator/pull/155))
 
 
