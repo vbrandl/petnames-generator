@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump `axum` from 0.6.18 to 0.6.20 (#150, [#162](https://github.com/vbrandl/petnames-generator/pull/162))
 - Bump `tower-http` from 0.4.1 to 0.4.4 (#151, [#153](https://github.com/vbrandl/petnames-generator/pull/153), [#172](https://github.com/vbrandl/petnames-generator/pull/172))
 - Bump `ructe` from 0.16.1 to 0.17.0 ([#155](https://github.com/vbrandl/petnames-generator/pull/155))
+- Bump `actions/checkout` from 3 to 4 ([#173](https://github.com/vbrandl/petnames-generator/pull/173))
 
 
 ## [0.17.0] 2023-06-21
