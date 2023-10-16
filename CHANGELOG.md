@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump `ructe` from 0.16.1 to 0.17.0 ([#155](https://github.com/vbrandl/petnames-generator/pull/155))
 - Bump `actions/checkout` from 3 to 4 ([#173](https://github.com/vbrandl/petnames-generator/pull/173))
 - Bump `stefanzweifel/git-auto-commit-action` from 4 to 5 ([#176](https://github.com/vbrandl/petnames-generator/pull/176))
+- Bump `tracing` from 0.1.37 to 0.1.39 ([#179](https://github.com/vbrandl/petnames-generator/pull/179))
 
 
 ## [0.17.0] 2023-06-21
