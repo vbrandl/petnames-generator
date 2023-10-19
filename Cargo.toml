@@ -20,7 +20,7 @@ rand = { version = "0.8.5", default-features = false, features = ["std_rng"] }
 serde = { version = "1.0.189", features = ["derive"] }
 tokio = { version = "1.33.0", features = ["full"] }
 tower-http = { version = "0.4.4", features = ["trace", "request-id"] }
-tracing = "0.1.39"
+tracing = "0.1.40"
 tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
 
 [dev-dependencies]
