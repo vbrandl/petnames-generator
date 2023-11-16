@@ -1,14 +1,14 @@
 use anyhow::Result;
 use axum::{
+    body::Body,
     extract::{MatchedPath, Path, Query},
     http::{Request, StatusCode},
     middleware::{self, Next},
     response::{IntoResponse, Response},
     routing::get,
-    Router, Server, TypedHeader,
+    Router, Server, TypedHeader, headers::HeaderName,
 };
 use headers::{ContentType, Expires};
-use hyper::{header::HeaderName, Body};
 use petname::Petnames;
 use serde::{de, Deserialize, Deserializer};
 use tokio::signal;
