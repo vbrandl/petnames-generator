@@ -1,6 +1,8 @@
 use anyhow::Result;
 use axum::{
+    body::Body,
     extract::{MatchedPath, Path, Query},
+    headers::HeaderName,
     http::{Request, StatusCode},
     middleware::{self, Next},
     response::{IntoResponse, Response},
@@ -8,7 +10,6 @@ use axum::{
     Router, Server, TypedHeader,
 };
 use headers::{ContentType, Expires};
-use hyper::{header::HeaderName, Body};
 use petname::Petnames;
 use serde::{de, Deserialize, Deserializer};
 use tokio::signal;
