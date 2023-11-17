@@ -5,8 +5,8 @@
 [![dependency status](https://deps.rs/repo/github/vbrandl/petnames-generator/status.svg)](https://deps.rs/repo/github/vbrandl/petnames-generator)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/vbrandl/petnames-generator/blob/master/LICENSE)
 
-**Note**: Since fly.io changed its payment plans and wants payment information to deploy new versions of this project.
-Since this was just to experiment, I don't really care but this should be a reminder to not depend on free offerings since they *will* change and not stay free forever.
+**Note**: Since fly.io changed its payment plans and wants payment information to deploy new versions of this project, I will no longer deploy new releases.
+This was just to experiment, so I don't really care but this should be a reminder to not depend on free offerings since they *will* change and not stay free forever.
 In general, fly.io was to unreliable for my preference (random errors when deploying, slow or no support at all, ...).
 I will not use it for future projects, but it was fun to play around.
 
