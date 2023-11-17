@@ -4,6 +4,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.18.0] 2023-11-17
 ### Dependencies
 - Bump `hyper` from 0.14.26 to 0.14.27 (#140)
 - Bump `tokio` from 1.28.2 to 1.34.0 (#141, #142, [#165](https://github.com/vbrandl/petnames-generator/pull/165), [#166](https://github.com/vbrandl/petnames-generator/pull/166), [#169](https://github.com/vbrandl/petnames-generator/pull/169), [#177](https://github.com/vbrandl/petnames-generator/pull/177), [#185](https://github.com/vbrandl/petnames-generator/pull/185))
