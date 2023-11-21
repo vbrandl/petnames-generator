@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Dependencies
+- Bump `serde` from 1.0.192 to 1.0.193 ([#193](https://github.com/vbrandl/petnames-generator/pull/193))
+
 ## [0.18.0] 2023-11-17
 ### Dependencies
 - Bump `hyper` from 0.14.26 to 0.14.27 (#140)
