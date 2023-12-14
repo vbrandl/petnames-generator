@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Dependencies
 - Bump `serde` from 1.0.192 to 1.0.193 ([#193](https://github.com/vbrandl/petnames-generator/pull/193))
+- Bump `tokio` from 1.34.0 to 1.35.0 ([#195](https://github.com/vbrandl/petnames-generator/pull/195))
 
 ## [0.18.0] 2023-11-17
 ### Dependencies
