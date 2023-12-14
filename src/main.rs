@@ -2,7 +2,7 @@ use anyhow::Result;
 use axum::{
     body::Body,
     extract::{MatchedPath, Path, Query, Request},
-    http::{StatusCode, HeaderName},
+    http::{HeaderName, StatusCode},
     middleware::{self, Next},
     response::{IntoResponse, Response},
     routing::get,
@@ -296,16 +296,16 @@ async fn start_webserver() -> Result<()> {
     let addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 8080));
     let listener = tokio::net::TcpListener::bind(addr).await?;
     Ok(axum::serve(listener, app())
-       //.with_graceful_shutdown(shutdown_signal())
-       .await?)
+        //.with_graceful_shutdown(shutdown_signal())
+        .await?)
 }
 
 async fn start_metrics_server() -> Result<()> {
     let metrics_addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 3000));
     let listener = tokio::net::TcpListener::bind(metrics_addr).await?;
     Ok(axum::serve(listener, metrics_app())
-       //.with_graceful_shutdown(shutdown_signal())
-       .await?)
+        //.with_graceful_shutdown(shutdown_signal())
+        .await?)
 }
 
 #[tokio::main]
