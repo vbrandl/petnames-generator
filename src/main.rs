@@ -1,14 +1,14 @@
 use anyhow::Result;
 use axum::{
     body::Body,
-    extract::{MatchedPath, Path, Query},
-    headers::HeaderName,
-    http::{Request, StatusCode},
+    extract::{MatchedPath, Path, Query, Request},
+    http::{StatusCode, HeaderName},
     middleware::{self, Next},
     response::{IntoResponse, Response},
     routing::get,
-    Router, Server, TypedHeader,
+    Router,
 };
+use axum_extra::TypedHeader;
 use headers::{ContentType, Expires};
 use petname::Petnames;
 use serde::{de, Deserialize, Deserializer};
@@ -199,7 +199,7 @@ async fn handler_400(message: &str) -> impl IntoResponse + '_ {
     )
 }
 
-async fn track_metrics<B>(req: Request<B>, next: Next<B>) -> impl IntoResponse {
+async fn track_metrics(req: Request, next: Next) -> impl IntoResponse {
     let start = Instant::now();
     let path = if let Some(matched_path) = req.extensions().get::<MatchedPath>() {
         matched_path.as_str().to_owned()
@@ -294,18 +294,18 @@ fn app() -> Router {
 
 async fn start_webserver() -> Result<()> {
     let addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 8080));
-    Ok(Server::bind(&addr)
-        .serve(app().into_make_service())
-        .with_graceful_shutdown(shutdown_signal())
-        .await?)
+    let listener = tokio::net::TcpListener::bind(addr).await?;
+    Ok(axum::serve(listener, app())
+       //.with_graceful_shutdown(shutdown_signal())
+       .await?)
 }
 
 async fn start_metrics_server() -> Result<()> {
     let metrics_addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 3000));
-    Ok(Server::bind(&metrics_addr)
-        .serve(metrics_app().into_make_service())
-        .with_graceful_shutdown(shutdown_signal())
-        .await?)
+    let listener = tokio::net::TcpListener::bind(metrics_addr).await?;
+    Ok(axum::serve(listener, metrics_app())
+       //.with_graceful_shutdown(shutdown_signal())
+       .await?)
 }
 
 #[tokio::main]
