@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump `serde` from 1.0.192 to 1.0.193 ([#193](https://github.com/vbrandl/petnames-generator/pull/193))
 - Bump `tokio` from 1.34.0 to 1.35.1 ([#195](https://github.com/vbrandl/petnames-generator/pull/195), [#198](https://github.com/vbrandl/petnames-generator/pull/198))
 - Bump `metrics-exporter-prometheus` from 0.12.1 to 0.12.2 ([#196](https://github.com/vbrandl/petnames-generator/pull/196))
+- Bump `anyhow` from 1.0.75 to 1.0.76 ([#199](https://github.com/vbrandl/petnames-generator/pull/199))
 
 ## [0.18.0] 2023-11-17
 ### Dependencies
