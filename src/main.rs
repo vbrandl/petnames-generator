@@ -296,7 +296,7 @@ async fn start_webserver() -> Result<()> {
     let addr = SocketAddr::from(([0, 0, 0, 0, 0, 0, 0, 0], 8080));
     let listener = tokio::net::TcpListener::bind(addr).await?;
     Ok(axum::serve(listener, app())
-        //.with_graceful_shutdown(shutdown_signal())
+        .with_graceful_shutdown(shutdown_signal())
         .await?)
 }
 
