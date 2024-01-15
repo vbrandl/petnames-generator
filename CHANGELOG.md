@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump `metrics-exporter-prometheus` from 0.12.1 to 0.13.0 ([#196](https://github.com/vbrandl/petnames-generator/pull/196), [#201](https://github.com/vbrandl/petnames-generator/pull/201))
 - Bump `anyhow` from 1.0.75 to 1.0.77 ([#199](https://github.com/vbrandl/petnames-generator/pull/199), [#202](https://github.com/vbrandl/petnames-generator/pull/202))
 - Bump `metrics` from 0.21.1 to 0.22.0 ([#200](https://github.com/vbrandl/petnames-generator/pull/200))
+- Bump `vergen` from 8.2.7 to 8.2.9 ([#207](https://github.com/vbrandl/petnames-generator/pull/207))
 
 ## [0.18.0] 2023-11-17
 ### Dependencies
