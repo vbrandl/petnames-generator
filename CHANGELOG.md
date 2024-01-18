@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump `axum` from 0.7.3 to 0.7.4 ([#206](https://github.com/vbrandl/petnames-generator/pull/206))
 - Bump `tower-http` from 0.5.0 to 0.5.1 ([#209](https://github.com/vbrandl/petnames-generator/pull/209))
 - Bump `axum-extra` from 0.9.1 to 0.9.2 ([#208](https://github.com/vbrandl/petnames-generator/pull/208))
-- Bump `vergen` from 8.2.7 to 8.3.0 ([#210](https://github.com/vbrandl/petnames-generator/pull/210))
+- Bump `vergen` from 8.2.7 to 8.3.1 ([#210](https://github.com/vbrandl/petnames-generator/pull/210), [#211](https://github.com/vbrandl/petnames-generator/pull/211))
 
 ## [0.18.0] 2023-11-17
 ### Dependencies
